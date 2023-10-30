@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="480"
+   height="480"
+   viewBox="0 0 127 127"
+   version="1.1"
+   id="svg17198"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="profile shuintaku.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17200"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.76880612"
+     inkscape:cx="132.02288"
+     inkscape:cy="307.61982"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs17195">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath15746">
+      <rect
+         style="fill:#241f31;stroke:none;stroke-width:5.76032;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         id="rect15748"
+         width="285.75"
+         height="285.75"
+         x="-1121.4967"
+         y="-1401.9208"
+         inkscape:export-filename="icon shuintaku.png"
+         inkscape:export-xdpi="96.24"
+         inkscape:export-ydpi="96.24" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath910">
+      <circle
+         style="opacity:1;fill:#c061cb;stroke:#ffffff;stroke-width:0.0647037;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         id="circle912"
+         cx="-201.42197"
+         cy="198.64476"
+         r="95.217651" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath914">
+      <circle
+         style="opacity:1;fill:#c061cb;stroke:#ffffff;stroke-width:0.0431358;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         id="circle916"
+         cx="63.5"
+         cy="63.5"
+         r="63.478432" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath918">
+      <circle
+         style="opacity:1;fill:#c061cb;stroke:#ffffff;stroke-width:0.0431358;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         id="circle920"
+         cx="63.5"
+         cy="63.5"
+         r="63.478432" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path9"
+       style="fill:#15111f;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round"
+       d="M 0,0 H 127 V 127 H 0 Z" />
+    <g
+       id="g17412"
+       transform="matrix(0.66666665,0,0,0.66666665,197.78131,-68.929834)"
+       clip-path="url(#clipPath910)">
+      <path
+         style="font-size:29.0519px;line-height:1.25;font-family:'Pixel Gosub';-inkscape-font-specification:'Pixel Gosub';fill:#ffffff;stroke-width:0.7263"
+         d="m -224.82796,180.39278 v -12.76694 h 12.76695 v 4.25565 h -8.5113 v 4.25564 h 8.5113 v 12.76695 h -12.76695 v -4.25565 h 8.5113 v -4.25565 z m 25.5339,-12.76694 h 4.25565 v 21.27824 h -4.25565 v -8.5113 h -4.25565 v 8.5113 h -4.25565 v -21.27824 h 4.25565 v 8.51129 h 4.25565 z m 17.0226,0 h 4.25565 v 21.27824 h -12.76695 v -21.27824 h 4.25565 v 17.02259 h 4.25565 z"
+         id="path8"
+         aria-label="shu" />
+      <path
+         d="m -212.71332,227.38256 h -12.1146 v -34.45354 h 12.1146 z"
+         style="font-size:79.9253px;line-height:1.25;font-family:'Pixel Gosub';-inkscape-font-specification:'Pixel Gosub';fill:#ffffff;stroke-width:2.06756"
+         id="path7"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         d="m -190.13033,205.04355 h -5.47239 v 22.33901 h -12.11474 v -34.45354 h 29.70167 v 34.45354 h -12.11454 z"
+         style="font-size:79.9253px;line-height:1.25;font-family:'Pixel Gosub';-inkscape-font-specification:'Pixel Gosub';fill:#ffffff;stroke-width:2.06756"
+         id="path6"
+         sodipodi:nodetypes="ccccccccc" />
+      <path
+         style="font-size:21.3049px;line-height:1.25;font-family:'Pixel Gosub';-inkscape-font-specification:'Pixel Gosub';fill:#ffffff;stroke-width:0.532619"
+         d="m -215.46545,231.40741 v 3.12083 h -3.12084 v 12.48334 h -3.12083 v -12.48334 h -3.12084 v -3.12083 z m 3.12083,15.60417 v -15.60417 h 9.36251 v 15.60417 h -3.12084 v -6.24167 h -3.12083 v 6.24167 z m 3.12084,-9.3625 h 3.12083 v -3.12084 h -3.12083 z m 12.48334,0 2.86076,-0.0104 0.26007,-0.24966 v -5.9816 h 3.12084 v 6.24167 h -2.86077 l -0.26007,0.26007 v 2.60069 l 0.26007,0.26007 h 2.86077 v 6.24167 h -3.12084 v -5.9816 l -0.26007,-0.26007 h -2.86076 v 6.24167 h -3.12084 v -15.60417 h 3.12084 z m 15.60417,-6.24167 h 3.12084 v 15.60417 h -9.36251 v -15.60417 h 3.12084 v 12.48334 h 3.12083 z"
+         id="path5"
+         aria-label="taku" />
+      <path
+         id="path4"
+         style="fill:#26a269;stroke-width:1.1055;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         d="m -224.82788,156.66898 h 46.81212 v 6.74397 h -46.81212 z" />
+      <path
+         id="path3"
+         style="fill:#26a269;stroke-width:0.419597;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         d="m -224.82788,150.27791 h 6.74388 v 6.74387 h -6.74388 z" />
+      <path
+         id="path2"
+         style="fill:#26a269;stroke-width:0.419597;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         d="m -184.75969,150.27791 h 6.74388 v 6.74387 h -6.74388 z" />
+      <path
+         id="path1"
+         style="fill:#26a269;stroke-width:0.419597;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+         d="m -204.79379,150.27791 h 6.74387 v 6.74387 h -6.74387 z" />
+    </g>
+  </g>
+</svg>
