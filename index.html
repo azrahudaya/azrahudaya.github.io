@@ -1,121 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head yaa -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./assets/icon-shuintaku.png" type="image/png">
-    <link rel="shortcut icon" href="./assets/icon-shuintaku.png" type="image/png">
+  <!-- Head yaa -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./assets/icon-shuintaku.png" type="image/png" />
+    <link
+      rel="shortcut icon"
+      href="./assets/icon-shuintaku.png"
+      type="image/png"
+    />
     <title>Home - Azra Hudaya</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
-    <link rel="stylesheet" href="path/to/tailwind.css">
-</head>
-<!-- Head yaa -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+    />
+    <link rel="stylesheet" href="path/to/tailwind.css" />
+    <style>
+      @media (max-width: 767px) {
+        /* Styles for screens smaller than 768px (e.g., mobile devices) */
+        #projects .text-sm {
+          display: none; /* Hide text-sm (paragraph) on small screens */
+        }
+      }
+    </style>
+  </head>
+  <!-- Head yaa -->
 
-<!-- Body yaa -->
-<body class="bg-gray-100 font-sans">
-    
+  <!-- Body yaa -->
+  <body class="bg-gray-100 font-sans">
     <!-- Navbar -->
     <nav class="bg-green-500 p-4">
-        <div class="container mx-auto">
-            <div class="flex items-center justify-between">
-                <a href="." class="text-white text-2xl font-bold">Portfolio.</a>
-                <ul class="flex space-x-4">
-                    <li><a href="#about" class="text-white hover:underline">About</a></li>
-                    <li><a href="#projects" class="text-white hover:underline">Projects</a></li>
-                    <li><a href="#contact" class="text-white hover:underline">Contact</a></li>
-                    <li><b><a href="https://shuintaku.wordpress.com/" class="text-white hover:underline">Wordpress</a></b></li>
-                </ul>
-            </div>
+      <div class="container mx-auto">
+        <div class="flex items-center justify-between">
+          <a href="." class="text-white text-2xl font-bold">Portfolio.</a>
+          <ul class="flex space-x-4">
+            <li>
+              <a href="#about" class="text-white hover:underline">About</a>
+            </li>
+            <li>
+              <a href="#projects" class="text-white hover:underline"
+                >Projects</a
+              >
+            </li>
+            <li>
+              <a href="#contact" class="text-white hover:underline">Contact</a>
+            </li>
+            <li>
+              <b
+                ><a
+                  href="https://shuintaku.wordpress.com/"
+                  class="text-white hover:underline"
+                  >Wordpress</a
+                ></b
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
     <!-- Navbar -->
 
     <!-- Hero Section -->
-    <header class="bg-cover bg-center h-96 flex items-center" style="background-image: url('./assets/image-1-backdrop.jpg');">
-        <div class="container mx-auto text-center text-white">
-            <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
-            <div class="container mx-auto px-8">
-                <p class="text-lg">I'm a Designer and Web Developer with a passion for creating amazing websites.</p>
-            </div>
-            <a href="#contact" class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300">Contact Me</a>
+    <header
+      class="bg-cover bg-center h-96 flex items-center"
+      style="background-image: url('./assets/image-1-backdrop.jpg')"
+    >
+      <div class="container mx-auto text-center text-white">
+        <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
+        <div class="container mx-auto px-8">
+          <p class="text-lg">
+            I'm a Designer and Web Developer with a passion for creating amazing
+            websites.
+          </p>
         </div>
+        <a
+          href="https://www.linkedin.com/in/azrahudaya"
+          target="_blank"
+          class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300"
+          >Contact Me</a
+        >
+      </div>
     </header>
     <!-- Hero Section -->
 
     <!-- About Section -->
     <section id="about" class="py-16">
-        <div class="container mx-auto text-center">
-            <div class="mb-8">
-                <img src="./assets/shuintaku-icon.svg" alt="Your Profile" class="w-32 h-32 rounded-full mx-auto mb-4">
-                <h2 class="text-3xl font-bold">About Me</h2>
-            </div>
-            <div class="container mx-auto px-9">
-                <p style="text-align:justify;" class="text-lg">Hello, I'm <b>Azra Hudaya!</b> As a dedicated student, I'm passionate about various design disciplines, including illustration, graphic design, UI/UX design, poster design, logo design, and more. I believe in the power of visual storytelling and am committed to creating captivating and functional design solutions. Let's collaborate and turn creative ideas into reality!</p>
-            </div>
+      <div class="container mx-auto text-center">
+        <div class="mb-8">
+          <img
+            src="./assets/icon-azrax.png"
+            alt="Your Profile"
+            class="w-32 h-32 rounded-full mx-auto mb-4"
+          />
+          <h2 class="text-3xl font-bold">About Me</h2>
         </div>
+        <div class="container mx-auto px-9">
+          <p style="text-align: justify" class="text-lg">
+            Hello, I'm <b>Azra Hudaya!</b> As a dedicated student, I'm
+            passionate about various design disciplines, including illustration,
+            graphic design, UI/UX design, poster design, logo design, and more.
+            I believe in the power of visual storytelling and am committed to
+            creating captivating and functional design solutions. Let's
+            collaborate and turn creative ideas into reality!
+          </p>
+        </div>
+      </div>
     </section>
     <!-- About Section -->
 
     <!-- Margin Class -->
-    <div class="container mx-auto px-4 bg-gray-200">
-
-    <!-- Projects Section -->
-    <section id="projects" class="bg-gray-200 py-16">
+    <div class="bg-gray-200 container mx-auto px-8">
+      <!-- Projects Section -->
+      <section id="projects" class="bg-gray-200 py-16">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-8">My Projects</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-
-                <!-- Proyek 1 - illustration -->
-                <div class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300">
-                    <a href="https://www.instagram.com/shuintaku" target="_blank">
-                        <img src="./assets/icon-illustration.jpg" alt="Project 1" class="mb-4 rounded-lg">
-                        <h3 class="text-xl font-bold">Illustration</h3>
-                        <p class="text-gray-600">Click here to see what illustrations I have made</p>
-                    </a>
-                </div>
-                <!-- Proyek 1 - illustration -->
-
-                <!-- Proyek 2 - poster -->
-                <div class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300">
-                    <a href="https://www.behance.net/azrahudaya" target="_blank">
-                        <img src="./assets/icon-posters.jpg" alt="Project 1" class="mb-4 rounded-lg">
-                        <h3 class="text-xl font-bold">Poster</h3>
-                        <p class="text-gray-600">Click here to see what Posters I have made</p>
-                    </a>
-                </div>
-
-                <!-- Proyek 2 - poster -->
-
-                <!-- Proyek 3 -->
-                <div class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300">
-                    <a href="https://www.behance.net/azrahudaya" target="_blank">
-                        <img src="./assets/icon-shuintaku-old.png" alt="Project 2" class="mb-4 rounded-lg">
-                        <h3 class="text-xl font-bold">Other Graphic Design</h3>
-                        <p class="text-gray-600">Logos, Banners, Flyers, Ads, etc.</p>
-                    </a>
-                </div>
-                <!-- Proyek 3 -->
-
+          <h2 class="text-3xl font-bold mb-8">Skill</h2>
+          <div class="grid grid-cols-3 md:grid-cols-6 gap-5">
+            <!-- Proyek 1 - Inkscape -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.inkscape.org" target="_blank">
+                <img
+                  src="./assets/icon-inkscape.png"
+                  alt="inkscape"
+                  class="mb-2 rounded-lg"
+                />
+              </a>
+              <h3 class="text-lg font-bold hidden md:block">Inkscape</h3>
+              <p class="text-gray-600 text-sm hidden md:block">
+                I'm proficient in Inkscape at an advanced level.
+              </p>
             </div>
-        </div>
-    </section>
-    <!-- Projects Section -->
+            <!-- Proyek 1 - Inkscape -->
 
+            <!-- Proyek 2 - CSP -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.clipstudio.net/en/" target="_blank">
+                <img
+                  src="./assets/icon-csp.png"
+                  alt="CSP"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">
+                  Clip Studio Paint
+                </h3>
+              </a>
+              <p class="text-gray-600 text-sm">
+                I'm intermediate in Clip Studio Paint.
+              </p>
+            </div>
+            <!-- Proyek 2 - CSP -->
+
+            <!-- Proyek 3 - Adobe AI -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a
+                href="https://www.adobe.com/products/illustrator.html"
+                target="_blank"
+              >
+                <img
+                  src="./assets/icon-ai.png"
+                  alt="CSP"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">
+                  Adobe Illustrator
+                </h3>
+              </a>
+              <p class="text-gray-600 text-sm">
+                I'm a beginner in Adobe Illustrator.
+              </p>
+            </div>
+            <!-- Proyek 3 - Adobe AI -->
+
+            <!-- Proyek 4 - Adobe PS -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a
+                href="https://www.adobe.com/products/photoshop.html"
+                target="_blank"
+              >
+                <img
+                  src="./assets/icon-ps.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">
+                  Adobe Photoshop
+                </h3>
+              </a>
+              <p class="text-gray-600 text-sm">
+                I'm a beginner in Adobe Photoshop.
+              </p>
+            </div>
+            <!-- Proyek 4 - Adobe PS -->
+
+            <!-- Proyek 5 - Figma -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.figma.com/" target="_blank">
+                <img
+                  src="./assets/icon-figma.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">Figma</h3>
+                <p class="text-gray-600 text-sm">
+                  I'm at an intermediate level in Figma.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 5 - Figma -->
+
+            <!-- Proyek 6 - Microsoft 365 -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-microsoft.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">Microsoft 365</h3>
+                <p class="text-gray-600 text-sm">
+                  I have advanced level in Microsoft 365.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 6 - Microsoft 365 -->
+
+            <!-- Proyek 7 - HTML5 -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-html.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">HTML5</h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in HTML5.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 7 - HTML5 -->
+
+            <!-- Proyek 8 - CSS3 -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-css.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">CSS3</h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in CSS3.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 8 - CSS3 -->
+
+            <!-- Proyek 9 - Bootstrap -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-bootstrap.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">Bootstrap</h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in Bootstrap.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 9 - Bootstrap -->
+
+            <!-- Proyek 10 - Tailwind -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-tailwind.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">Tailwind</h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in Tailwind.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 10 - Tailwind -->
+
+            <!-- Proyek 11 - Arduino -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-arduino.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">Arduino</h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in Arduino.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 11 - Arduino -->
+
+            <!-- Proyek 12 - Resolve Davinci -->
+            <div
+              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-resolve.png"
+                  alt="Project 1"
+                  class="mb-2 rounded-lg"
+                />
+                <h3 class="text-lg font-bold hidden md:block">
+                  Davinci Resolve
+                </h3>
+                <p class="text-gray-600 text-sm">
+                  I have intermediate level in Resolve Davinci.
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 12 - Resolve Davinci -->
+          </div>
+        </div>
+      </section>
+      <!-- Projects Section -->
+    </div>
+    <!-- Margin Class -->
+
+    <!-- Margin Class -->
+    <div class="container mx-auto px-9 bg-gray-100">
+      <!-- Projects Section -->
+      <section id="projects" class="bg-gray-100 py-16">
+        <div class="container mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-8">My Projects</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Proyek 1 - illustration -->
+            <div
+              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.instagram.com/shuintaku" target="_blank">
+                <img
+                  src="./assets/icon-illustration.jpg"
+                  alt="Project 1"
+                  class="mb-4 rounded-lg"
+                />
+                <h3 class="text-xl font-bold">Illustration</h3>
+                <p class="text-gray-600">
+                  Click here to see what illustrations I have made
+                </p>
+              </a>
+            </div>
+            <!-- Proyek 1 - illustration -->
+
+            <!-- Proyek 2 - poster -->
+            <div
+              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.behance.net/azrahudaya" target="_blank">
+                <img
+                  src="./assets/icon-posters.jpg"
+                  alt="Project 1"
+                  class="mb-4 rounded-lg"
+                />
+                <h3 class="text-xl font-bold">Poster</h3>
+                <p class="text-gray-600">
+                  Click here to see what Posters I have made
+                </p>
+              </a>
+            </div>
+
+            <!-- Proyek 2 - poster -->
+
+            <!-- Proyek 3 -->
+            <div
+              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
+            >
+              <a href="https://www.behance.net/azrahudaya" target="_blank">
+                <img
+                  src="./assets/icon-shuintaku-old.png"
+                  alt="Project 2"
+                  class="mb-4 rounded-lg"
+                />
+                <h3 class="text-xl font-bold">Other Graphic Design</h3>
+                <p class="text-gray-600">Logos, Banners, Flyers, Ads, etc.</p>
+              </a>
+            </div>
+            <!-- Proyek 3 -->
+          </div>
+        </div>
+      </section>
+      <!-- Projects Section -->
     </div>
     <!-- Margin Class -->
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
-            <p class="text-lg">Click here to contact me via email</p>
-            <a href="mailto:azrahudaya@outloook.com" class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300">Email Me</a>
-        </div>
+    <section id="contact" class="py-16 bg-gray-200">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
+        <p class="text-lg">Click here to contact me via email</p>
+        <a
+          href="mailto:azrahudaya@outloook.com"
+          class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300"
+          >Email Me</a
+        >
+      </div>
     </section>
     <!-- Contact Section -->
-    
-</body>
-<!-- Body yaa -->
-
+  </body>
+  <!-- Body yaa -->
 </html>
