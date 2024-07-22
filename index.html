@@ -1,439 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Head yaa -->
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./assets/icon-shuintaku.png" type="image/png" />
+    <!-- META -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Azra Hudaya - Web Portfolio" />
+    <meta
+      name="keywords"
+      content="Azra Hudaya, portfolio, web developer, graphic designer, UI designer, web designer"
+    />
+    <meta name="author" content="Azra Hudaya" />
+    <!-- PAGE TITLE -->
+    <title>Azra Hudaya - Web Portfolio</title>
+    <!-- FAVICON ICON -->
     <link
       rel="shortcut icon"
-      href="./assets/icon-shuintaku.png"
-      type="image/png"
+      href="assets/images/favicon.png"
+      type="image/x-icon"
     />
-    <title>Home - Azra Hudaya</title>
+    <!-- ALL GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
     />
-    <link rel="stylesheet" href="path/to/tailwind.css" />
-    <style>
-      @media (max-width: 767px) {
-        /* Styles for screens smaller than 768px (e.g., mobile devices) */
-        #projects .text-sm {
-          display: none; /* Hide text-sm (paragraph) on small screens */
-        }
-      }
-    </style>
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <!-- FONT AWESOME CSS -->
+    <link rel="stylesheet" href="assets/fonts/remixicon.css" />
+    <!-- MAGNIFIC CSS -->
+    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
+    <!-- NICE SELECT CSS -->
+    <link rel="stylesheet" href="assets/css/nice-select.min.css" />
+    <!-- ANIMATE CSS -->
+    <link rel="stylesheet" href="assets/css/animate.min.css" />
+    <!-- SLICK CSS -->
+    <link rel="stylesheet" href="assets/css/slick.min.css" />
+    <!-- SPACING CSS -->
+    <link rel="stylesheet" href="assets/css/spacing.css" />
+    <!-- MAIN STYLE CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- RESPONSIVE CSS -->
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <!-- Head yaa -->
 
-  <!-- Body yaa -->
-  <body class="bg-gray-100 font-sans">
-    <!-- Navbar -->
-    <nav class="bg-green-500 p-4">
-      <div class="container mx-auto">
-        <div class="flex items-center justify-between">
-          <a href="." class="text-white text-2xl font-bold">Portfolio.</a>
-          <ul class="flex space-x-4">
-            <li>
-              <a href="#about" class="text-white hover:underline">About</a>
-            </li>
-            <li>
-              <a href="#projects" class="text-white hover:underline"
-                >Projects</a
-              >
-            </li>
-            <li>
-              <a href="#contact" class="text-white hover:underline">Contact</a>
-            </li>
-            <li>
-              <b
-                ><a
-                  href="https://shuintaku.wordpress.com/"
-                  class="text-white hover:underline"
-                  >Wordpress</a
-                ></b
-              >
-            </li>
-          </ul>
+  <body>
+    <!-- START PRELOADER AREA-->
+    <div class="preloader">
+      <svg viewbox="0 0 1000 1000" preserveaspectratio="none">
+        <path
+          id="preloaderSvg"
+          d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"
+        ></path>
+      </svg>
+      <div class="preloader-heading">
+        <div class="load-text">
+          <span>H</span>
+          <span>e</span>
+          <span>L</span>
+          <span>L</span>
+          <span>o</span>
         </div>
       </div>
-    </nav>
-    <!-- Navbar -->
-
-    <!-- Hero Section -->
-    <header
-      class="bg-cover bg-center h-96 flex items-center"
-      style="background-image: url('./assets/image-1-backdrop.jpg')"
-    >
-      <div class="container mx-auto text-center text-white">
-        <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
-        <div class="container mx-auto px-8">
-          <p class="text-lg">
-            I'm a Designer and Web Developer with a passion for creating amazing
-            websites.
-          </p>
+    </div>
+    <!-- END PRELOADER AREA -->
+    <!-- START MENU DESIGN AREA -->
+    <header class="main-header">
+      <div class="header-upper">
+        <div class="container">
+          <div class="header-inner d-flex align-items-center">
+            <!-- START LOGO DESIGN AREA -->
+            <div class="logo-outer">
+              <div class="logo">
+                <a href="index.html"
+                  ><img
+                    src="assets/images/logos/logo.svg"
+                    alt="Logo"
+                    title="Logo"
+                /></a>
+              </div>
+            </div>
+            <!-- / END LOGO DESIGN AREA -->
+            <!-- START NAV DESIGN AREA -->
+            <div class="nav-outer clearfix mx-auto">
+              <!-- Main Menu -->
+              <nav class="main-menu navbar-expand-lg">
+                <div class="navbar-header">
+                  <div class="mobile-logo">
+                    <a href="index.html">
+                      <img
+                        src="assets/images/logos/logo.svg"
+                        alt="Logo"
+                        title="Logo"
+                      />
+                    </a>
+                  </div>
+                  <!-- Toggle Button -->
+                  <button
+                    type="button"
+                    class="navbar-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target=".navbar-collapse"
+                  >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                  <ul class="navigation clearfix">
+                    <li>
+                      <a class="nav-link-click" href="index.html">Home</a>
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link-click"
+                        href="https://www.linkedin.com/in/azrahudaya/"
+                        >Linkedin</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link-click"
+                        href="https://www.behance.net/azrahudaya"
+                      >
+                        Design Projects</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              <!-- / END NAV DESIGN AREA -->
+            </div>
+            <div class="about-social text-center">
+              <ul>
+                <li>
+                  <a href="https://www.instagram.com/azrahudaya"
+                    ><i class="ri-instagram-line"></i
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.behance.net/azrahudaya"
+                    ><i class="ri-behance-line"></i
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/azrahudaya"
+                    ><i class="ri-linkedin-fill"></i
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://github.com/azrahudaya"
+                    ><i class="ri-github-line"></i
+                  ></a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <a
-          href="https://www.linkedin.com/in/azrahudaya"
-          target="_blank"
-          class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300"
-          >Contact Me</a
-        >
       </div>
     </header>
-    <!-- Hero Section -->
+    <!-- / END MENU DESIGN AREA -->
+    <!-- START MENU DESIGN AREA -->
 
-    <!-- About Section -->
-    <section id="about" class="py-16">
-      <div class="container mx-auto text-center">
-        <div class="mb-8">
-          <img
-            src="./assets/icon-azrax.png"
-            alt="Your Profile"
-            class="w-32 h-32 rounded-full mx-auto mb-4"
-          />
-          <h2 class="text-3xl font-bold">About Me</h2>
-        </div>
-        <div class="container mx-auto px-9">
-          <p style="text-align: justify" class="text-lg">
-            Hello, I'm <b>Azra Hudaya!</b> As a dedicated student, I'm
-            passionate about various design disciplines, including illustration,
-            graphic design, UI/UX design, poster design, logo design, and more.
-            I believe in the power of visual storytelling and am committed to
-            creating captivating and functional design solutions. Let's
-            collaborate and turn creative ideas into reality!
-          </p>
-        </div>
-      </div>
-    </section>
-    <!-- About Section -->
-
-    <!-- Margin Class -->
-    <div class="bg-gray-200 container mx-auto px-8">
-      <!-- Projects Section -->
-      <section id="projects" class="bg-gray-200 py-16">
-        <div class="container mx-auto text-center">
-          <h2 class="text-3xl font-bold mb-8">Skill</h2>
-          <div class="grid grid-cols-3 md:grid-cols-6 gap-5">
-            <!-- Proyek 1 - Inkscape -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.inkscape.org" target="_blank">
-                <img
-                  src="./assets/icon-inkscape.png"
-                  alt="inkscape"
-                  class="mb-2 rounded-lg"
-                />
-              </a>
-              <h3 class="text-lg font-bold hidden md:block">Inkscape</h3>
-              <p class="text-gray-600 text-sm hidden md:block">
-                I'm proficient in Inkscape at an advanced level.
-              </p>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main class="main-bg o-hidden">
+          <!-- START HEADER DESIGN AREA -->
+          <section id="home" class="main-hero-area">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-4">
+                  <div class="glitch">
+                    <img src="assets/images/about/me.jpg" alt="About Me" />
+                  </div>
+                </div>
+                <div class="col-lg-8">
+                  <!-- START HERO DESIGN AREA -->
+                  <div class="hero-content wow fadeInUp delay-0-2s">
+                    <h1>
+                      I am Web Developer, Graphic Designer, UI/UX Designer,
+                      Illustrator, and Freelancer
+                    </h1>
+                    <script src="script.js"></script>
+                    <h2>
+                      Hello, I am Azra Hudaya. With over 2 years of experience
+                      in web development and more than 4 years in design, my
+                      journey has been one of continuous self-discovery. I am
+                      passionate about harnessing technology's potential to
+                      create positive change.
+                    </h2>
+                    <div class="hero-btns">
+                      <a
+                        href="mailto:azrahudaya@gmail.com?subject=Request%20for%20CV"
+                        class="theme-btn"
+                      >
+                        Ask the CV <i class="ri-download-line"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- / END HERO DESIGN AREA -->
+                </div>
+              </div>
             </div>
-            <!-- Proyek 1 - Inkscape -->
-
-            <!-- Proyek 2 - CSP -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.clipstudio.net/en/" target="_blank">
-                <img
-                  src="./assets/icon-csp.png"
-                  alt="CSP"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">
-                  Clip Studio Paint
-                </h3>
-              </a>
-              <p class="text-gray-600 text-sm">
-                I'm intermediate in Clip Studio Paint.
-              </p>
+          </section>
+          <!-- / END HEADER DESIGN AREA -->
+          <section class="single-page-hero-area">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-12">
+                  <h2 id="about">About me</h2>
+                  <p>
+                    With over 2 years of dedicated experience in web development
+                    and 4 years in design, I have established myself as a
+                    trusted professional in the industry. My work focuses on
+                    creating innovative solutions that not only meet but exceed
+                    business goals.
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <!-- START COUNTER DESIGN AREA -->
+                <div class="col-6 col-lg-3">
+                  <div class="hero-counter-area wow fadeInUp delay-0-4s">
+                    <div class="counter-item counter-text-wrap">
+                      <span
+                        class="count-text plus"
+                        data-speed="3000"
+                        data-stop="4"
+                        >0</span
+                      >
+                      <span class="counter-title">Years Of Experience</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- / END COUNTER DESIGN AREA -->
+                <!-- START COUNTER DESIGN AREA -->
+                <div class="col-6 col-lg-3">
+                  <div class="hero-counter-area wow fadeInUp delay-0-4s">
+                    <div class="counter-item counter-text-wrap">
+                      <span
+                        class="count-text plus"
+                        data-speed="3000"
+                        data-stop="200"
+                        >0</span
+                      >
+                      <span class="counter-title">Complete Projects</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- / END COUNTER DESIGN AREA -->
+                <!-- START COUNTER DESIGN AREA -->
+                <div class="col-6 col-lg-3">
+                  <div class="hero-counter-area wow fadeInUp delay-0-4s">
+                    <div class="counter-item counter-text-wrap">
+                      <span
+                        class="count-text plus"
+                        data-speed="3000"
+                        data-stop="90"
+                        >0</span
+                      >
+                      <span class="counter-title">Client Satisfactions</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- / END COUNTER DESIGN AREA -->
+                <!-- START COUNTER DESIGN AREA -->
+                <div class="col-6 col-lg-3">
+                  <div class="hero-counter-area wow fadeInUp delay-0-4s">
+                    <div class="counter-item counter-text-wrap">
+                      <span
+                        class="count-text plus"
+                        data-speed="3000"
+                        data-stop="999"
+                        >0</span
+                      >
+                      <span class="counter-title">Cup of coffe</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- Proyek 2 - CSP -->
-
-            <!-- Proyek 3 - Adobe AI -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a
-                href="https://www.adobe.com/products/illustrator.html"
-                target="_blank"
-              >
-                <img
-                  src="./assets/icon-ai.png"
-                  alt="CSP"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">
-                  Adobe Illustrator
-                </h3>
-              </a>
-              <p class="text-gray-600 text-sm">
-                I'm a beginner in Adobe Illustrator.
-              </p>
+          </section>
+          <!-- START RESUME EXPERIENCE DESIGN AREA -->
+          <div class="resume-area" id="resume">
+            <div class="container">
+              <div class="container-inner">
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    <div class="section-title mb-40 wow fadeInUp delay-0-2s">
+                      <h2>Experience</h2>
+                      <p>
+                        Established history of success in design and
+                        development, consistently delivering valuable insights
+                        and driving significant results.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-10">
+                    <div class="resume-wrapper wow fadeInUp delay-0-2s">
+                      <!-- START SINGLE EXPERIENCE DESIGN AREA -->
+                      <div class="resume-box">
+                        <span class="resume-date">2024 - Present</span>
+                        <h5 class="fw-medium">Web Management Intern</h5>
+                        <span>@ Superkey Consulting Group</span>
+                        <p>
+                          As an intern in web management at Superkey Consulting
+                          Group, I was responsible for maintaining and enhancing
+                          the company's website. I collaborated closely with the
+                          marketing and development teams to ensure the website
+                          was not only visually appealing but also user-friendly
+                          and effective in driving engagement. My role involved
+                          optimizing website performance, implementing new
+                          features, and ensuring seamless user experiences.
+                        </p>
+                      </div>
+                      <!-- / END SINGLE EXPERIENCE DESIGN AREA -->
+                      <!-- START SINGLE EXPERIENCE DESIGN AREA -->
+                      <div class="resume-box">
+                        <span class="resume-date">2024</span>
+                        <h5 class="fw-medium">Head of Graphic Desgin</h5>
+                        <span
+                          >@ Indonesian Development Education and
+                          Leadership</span
+                        >
+                        <p>
+                          As the Head of Graphic Design at Indonesian
+                          Development Education and Leadership, I was
+                          responsible for leading the creative direction and
+                          execution of all visual content. I collaborated
+                          closely with the marketing and development teams to
+                          create compelling designs that aligned with the
+                          company's brand identity and business goals. My role
+                          involved overseeing the design process, from concept
+                          to final product, ensuring high-quality and impactful
+                          visuals that enhanced user engagement and drove
+                          conversions.
+                        </p>
+                      </div>
+                      <!-- / END SINGLE EXPERIENCE DESIGN AREA -->
+                      <!-- START SINGLE EXPERIENCE DESIGN AREA -->
+                      <div class="resume-box">
+                        <span class="resume-date">2024</span>
+                        <h5 class="fw-medium">Robotic and IoT Tutor</h5>
+                        <span>@ MAN 2 Cirebon</span>
+                        <p>
+                          As a Robotic Tutor at MAN 2 Cirebon, I guided students
+                          in understanding and implementing robotic
+                          technologies. I developed comprehensive lesson plans
+                          and hands-on projects that covered various aspects of
+                          robotics. My role involved mentoring students,
+                          fostering their problem-solving skills, and
+                          encouraging innovative thinking to tackle real-world
+                          challenges through technology.
+                        </p>
+                      </div>
+                      <!-- / END SINGLE EXPERIENCE DESIGN AREA -->
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- Proyek 3 - Adobe AI -->
-
-            <!-- Proyek 4 - Adobe PS -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a
-                href="https://www.adobe.com/products/photoshop.html"
-                target="_blank"
-              >
-                <img
-                  src="./assets/icon-ps.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">
-                  Adobe Photoshop
-                </h3>
-              </a>
-              <p class="text-gray-600 text-sm">
-                I'm a beginner in Adobe Photoshop.
-              </p>
-            </div>
-            <!-- Proyek 4 - Adobe PS -->
-
-            <!-- Proyek 5 - Figma -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.figma.com/" target="_blank">
-                <img
-                  src="./assets/icon-figma.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">Figma</h3>
-                <p class="text-gray-600 text-sm">
-                  I'm at an intermediate level in Figma.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 5 - Figma -->
-
-            <!-- Proyek 6 - Microsoft 365 -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.office.com/" target="_blank">
-                <img
-                  src="./assets/icon-microsoft.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">Microsoft 365</h3>
-                <p class="text-gray-600 text-sm">
-                  I have advanced level in Microsoft 365.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 6 - Microsoft 365 -->
-
-            <!-- Proyek 7 - HTML5 -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://id.wikipedia.org/wiki/HTML" target="_blank">
-                <img
-                  src="./assets/icon-html.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">HTML5</h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in HTML5.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 7 - HTML5 -->
-
-            <!-- Proyek 8 - CSS3 -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://en.wikipedia.org/wiki/CSS" target="_blank">
-                <img
-                  src="./assets/icon-css.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">CSS3</h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in CSS3.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 8 - CSS3 -->
-
-            <!-- Proyek 9 - Bootstrap -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://getbootstrap.com/" target="_blank">
-                <img
-                  src="./assets/icon-bootstrap.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">Bootstrap</h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in Bootstrap.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 9 - Bootstrap -->
-
-            <!-- Proyek 10 - Tailwind -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://tailwindcss.com/" target="_blank">
-                <img
-                  src="./assets/icon-tailwind.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">Tailwind</h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in Tailwind.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 10 - Tailwind -->
-
-            <!-- Proyek 11 - Arduino -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.arduino.cc/" target="_blank">
-                <img
-                  src="./assets/icon-arduino.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">Arduino</h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in Arduino.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 11 - Arduino -->
-
-            <!-- Proyek 12 - Resolve Davinci -->
-            <div
-              class="bg-white p-3 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a
-                href="https://www.blackmagicdesign.com/products/davinciresolve"
-                target="_blank"
-              >
-                <img
-                  src="./assets/icon-resolve.png"
-                  alt="Project 1"
-                  class="mb-2 rounded-lg"
-                />
-                <h3 class="text-lg font-bold hidden md:block">
-                  Davinci Resolve
-                </h3>
-                <p class="text-gray-600 text-sm">
-                  I have intermediate level in Resolve Davinci.
-                </p>
-              </a>
-            </div>
-            <!-- Proyek 12 - Resolve Davinci -->
           </div>
-        </div>
-      </section>
-      <!-- Projects Section -->
-    </div>
-    <!-- Margin Class -->
-
-    <!-- Margin Class -->
-    <div class="container mx-auto px-9 bg-gray-100">
-      <!-- Projects Section -->
-      <section id="projects" class="bg-gray-100 py-16">
-        <div class="container mx-auto text-center">
-          <h2 class="text-3xl font-bold mb-8">My Projects</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <!-- Proyek 1 - illustration -->
-            <div
-              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.instagram.com/shuintaku" target="_blank">
-                <img
-                  src="./assets/icon-illustration.jpg"
-                  alt="Project 1"
-                  class="mb-4 rounded-lg"
-                />
-                <h3 class="text-xl font-bold">Illustration</h3>
-                <p class="text-gray-600">
-                  Click here to see what illustrations I have made
-                </p>
-              </a>
+          <!-- / END RESUME EXPERIENCE DESIGN AREA -->
+          <!-- START PORTFOLIO DESIGN AREA -->
+          <div class="projects-area" id="portfolio">
+            <div class="custom-icon">
+              <img src="assets/images/custom/work-scribble.svg" alt="custom" />
             </div>
-            <!-- Proyek 1 - illustration -->
-
-            <!-- Proyek 2 - poster -->
-            <div
-              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.behance.net/azrahudaya" target="_blank">
-                <img
-                  src="./assets/icon-posters.jpg"
-                  alt="Project 1"
-                  class="mb-4 rounded-lg"
-                />
-                <h3 class="text-xl font-bold">Poster</h3>
-                <p class="text-gray-600">
-                  Click here to see what Posters I have made
-                </p>
-              </a>
+            <div class="container-fluid">
+              <div class="row g-4 portfolio-grid">
+                <!-- START SINGLE PORTFOLIO DESIGN AREA -->
+                <div class="col-md-6 col-xl-6 portfolio-item category-1">
+                  <a href="assets/images/projects/work1.jpg" class="work-popup">
+                    <div class="portfolio-box">
+                      <!-- Image -->
+                      <img
+                        src="assets/images/projects/work1.jpg"
+                        alt=""
+                        data-rjs="2"
+                      />
+                      <!-- Category -->
+                      <span class="portfolio-category">Android Design</span>
+                      <!-- Caption -->
+                      <div class="portfolio-caption">
+                        <h1>UI/UX Design - Ternak Care</h1>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <!-- // END SINGLE PORTFOLIO DESIGN AREA -->
+                <!-- START SINGLE PORTFOLIO DESIGN AREA -->
+                <div class="col-md-6 col-xl-6 portfolio-item category-2">
+                  <a href="assets/images/projects/work2.jpg" class="work-popup">
+                    <div class="portfolio-box">
+                      <!-- Image -->
+                      <img
+                        src="assets/images/projects/work2.jpg"
+                        alt=""
+                        data-rjs="2"
+                      />
+                      <!-- Category -->
+                      <span class="portfolio-category">Android Design</span>
+                      <!-- Caption -->
+                      <div class="portfolio-caption">
+                        <h1>UI/UX Design - Hit Me Up!</h1>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <!-- // END SINGLE PORTFOLIO DESIGN AREA -->
+                <!-- START SINGLE PORTFOLIO DESIGN AREA -->
+                <div class="col-md-6 col-xl-4 portfolio-item category-2">
+                  <a href="assets/images/projects/work3.jpg" class="work-popup">
+                    <div class="portfolio-box">
+                      <!-- Image -->
+                      <img
+                        src="assets/images/projects/work3.jpg"
+                        alt=""
+                        data-rjs="2"
+                      />
+                      <!-- Category -->
+                      <span class="portfolio-category">Illustration</span>
+                      <!-- Caption -->
+                      <div class="portfolio-caption">
+                        <h1>Anime Illustration</h1>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <!-- // END SINGLE PORTFOLIO DESIGN AREA -->
+                <!-- START SINGLE PORTFOLIO DESIGN AREA -->
+                <div class="col-md-6 col-xl-4 portfolio-item category-1">
+                  <a href="assets/images/projects/work4.jpg" class="work-popup">
+                    <div class="portfolio-box">
+                      <!-- Image -->
+                      <img
+                        src="assets/images/projects/work4.jpg"
+                        alt=""
+                        data-rjs="2"
+                      />
+                      <!-- Category -->
+                      <span class="portfolio-category">Book</span>
+                      <!-- Caption -->
+                      <div class="portfolio-caption">
+                        <h1>Petualangan Laktasi Book</h1>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <!-- // END SINGLE PORTFOLIO DESIGN AREA -->
+                <!-- START SINGLE PORTFOLIO DESIGN AREA -->
+                <div class="col-md-6 col-xl-4 portfolio-item category-2">
+                  <a href="assets/images/projects/work5.jpg" class="work-popup">
+                    <div class="portfolio-box">
+                      <!-- Image -->
+                      <img
+                        src="assets/images/projects/work5.jpg"
+                        alt=""
+                        data-rjs="2"
+                      />
+                      <!-- Category -->
+                      <span class="portfolio-category">Web Design</span>
+                      <!-- Caption -->
+                      <div class="portfolio-caption">
+                        <h1>Rocket Program by Superkey</h1>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <!-- // END SINGLE PORTFOLIO DESIGN AREA -->
+              </div>
             </div>
-
-            <!-- Proyek 2 - poster -->
-
-            <!-- Proyek 3 -->
-            <div
-              class="bg-white p-4 shadow-lg rounded-lg transform hover:scale-105 transition-transform duration-300"
-            >
-              <a href="https://www.behance.net/azrahudaya" target="_blank">
-                <img
-                  src="./assets/icon-shuintaku-old.png"
-                  alt="Project 2"
-                  class="mb-4 rounded-lg"
-                />
-                <h3 class="text-xl font-bold">Other Graphic Design</h3>
-                <p class="text-gray-600">Logos, Banners, Flyers, Ads, etc.</p>
-              </a>
-            </div>
-            <!-- Proyek 3 -->
           </div>
-        </div>
-      </section>
-      <!-- Projects Section -->
-    </div>
-    <!-- Margin Class -->
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-gray-200">
-      <div class="container mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
-        <p class="text-lg">Click here to contact me via email</p>
-        <a
-          href="mailto:azrahudaya@gmail.com"
-          class="bg-green-500 text-white hover:bg-green-600 py-2 px-6 rounded-full mt-4 inline-block transform hover:scale-105 transition-transform duration-300"
-          >Email Me</a
-        >
+          <!-- // END PORTFOLIO DESIGN AREA -->
+          <!-- START COMPANY DESIGN AREA -->
+          <div class="company-design-area">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h2>Company I Worked With</h2>
+                  <div class="company-list">
+                    <div
+                      class="scroller"
+                      data-direction="left"
+                      data-speed="slow"
+                    >
+                      <div class="scroller__inner">
+                        <img
+                          src="assets/images/client-logos/partner0.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner1.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner2.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner3.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner4.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner5.svg"
+                          alt=""
+                        />
+                        <img
+                          src="assets/images/client-logos/partner1.svg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- // END COMPANY DESIGN AREA -->
+          <!-- START CALL TO ACTION DESIGN AREA -->
+          <section class="call-to-action-area">
+            <div class="container">
+              <div class="row">
+                <!-- START ABOUT TEXT DESIGN AREA -->
+                <div class="col-lg-12">
+                  <div
+                    class="call-to-action-part wow fadeInUp delay-0-2s text-center"
+                  >
+                    <h2>Are You Ready to kickstart your project?</h2>
+                    <p>
+                      Reach out and let's make it happen ✨. I'm also available
+                      Part-time and Freelance opportunities to push the
+                      boundaries of design and deliver exceptional work.
+                    </p>
+                    <div class="hero-btns">
+                      <a
+                        href="mailto:azrahudaya@gmail.com?subject=Let's%20Collaborate!"
+                        class="theme-btn call-to-action-button"
+                      >
+                        Send Me Message <i class="ri-mail-line"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- / END ABOUT TEXT DESIGN AREA -->
+              </div>
+            </div>
+          </section>
+          <!--  // END CALL TO ACTION DESIGN AREA -->
+          <!-- START FOOTER DESIGN AREA -->
+          <footer class="main-footer">
+            <div class="footer-bottom pt-50 pb-40">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-12 text-center">
+                    <div class="copyright-text">
+                      <p>
+                        &copy; <a href="index.html">Azra Hudaya</a> All Rights
+                        Reserved.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </main>
       </div>
-    </section>
-    <!-- Contact Section -->
+    </div>
+    <!-- / END FOOTER DESIGN AREA -->
+    <!-- START SCROOL UP DESIGN AREA -->
+    <div class="progress-wrap cursor-pointer">
+      <i class="ri-arrow-up-s-line"></i>
+      <svg
+        class="progress-circle svg-content"
+        width="100%"
+        height="100%"
+        viewBox="-1 -1 102 102"
+      >
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+      </svg>
+    </div>
+    <!-- / END SCROOL UP DESIGN AREA -->
+    <!-- JQUERY JS -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <!-- BOOTSTRAP JS-->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- APPEAR JS -->
+    <script src="assets/js/appear.min.js"></script>
+    <!-- MAGNIFICANT JS -->
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- SLICK JS-->
+    <script src="assets/js/slick.min.js"></script>
+    <!-- GSAP AND LOCOMOTIV JS-->
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/ScrollSmoother.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/smoother-script.js"></script>
+    <!-- NICE SELECT JS-->
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <!-- IMAGE LOADER JS-->
+    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <!-- ISOTOPE JS-->
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <!--  WOW ANIMATION JS-->
+    <script src="assets/js/wow.min.js"></script>
+    <!-- SCRIPT JS-->
+    <script src="assets/js/script.js"></script>
   </body>
-  <!-- Body yaa -->
 </html>
