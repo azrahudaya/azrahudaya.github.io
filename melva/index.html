@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5eb">
+  <meta name="description" content="Sebuah kejutan kecil untuk Melva yang ke-21.">
+  <title>untuk melva, 21</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="scene" aria-live="polite">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="confetti confetti-a" aria-hidden="true"></div>
+    <div class="confetti confetti-b" aria-hidden="true"></div>
+    <div class="confetti confetti-c" aria-hidden="true"></div>
+
+    <section class="intro panel" id="intro">
+      <p class="eyebrow">ada satu hal kecil</p>
+      <h1>melva,<br><em>sebentar ya.</em></h1>
+      <p class="intro-copy">Jangan lihat ke mana-mana.<br>Kejutannya sedang disiapkan.</p>
+      <button class="primary-button" id="startButton" type="button">
+        <span>mulai kejutan</span><span aria-hidden="true">↗</span>
+      </button>
+      <p class="tiny-note">volume boleh dinaikkan sedikit :)</p>
+    </section>
+
+    <section class="countdown panel is-hidden" id="countdown" aria-label="Hitung mundur">
+      <p class="eyebrow">tiga hal kecil untukmu</p>
+      <div class="count-number" id="countNumber">3</div>
+      <p class="count-caption" id="countCaption">siap?</p>
+    </section>
+
+    <section class="gift-stage panel is-hidden" id="giftStage">
+      <p class="eyebrow">khusus untuk melva</p>
+      <div class="gift-wrap" id="giftWrap">
+        <div class="sparkle sparkle-1">✦</div><div class="sparkle sparkle-2">✦</div><div class="sparkle sparkle-3">✦</div>
+        <button class="gift" id="giftButton" type="button" aria-label="Buka kado">
+          <span class="lid"><i></i></span>
+          <span class="box"><i></i></span>
+          <span class="ribbon"></span>
+        </button>
+      </div>
+      <p class="tap-hint" id="tapHint">tekan kadonya pelan-pelan</p>
+    </section>
+
+    <section class="message panel is-hidden" id="message">
+      <div class="message-mark" aria-hidden="true">21</div>
+      <p class="eyebrow">happy birthday, melva</p>
+      <h2>Selamat ulang tahun<br><em>yang ke-21.</em></h2>
+      <div class="rule"></div>
+      <p class="letter">Semoga di umur baru ini, hidup lebih sering memberimu alasan untuk tersenyum. Semoga hal-hal baik datang tanpa banyak aba-aba, dan kamu tetap jadi Melva yang seru, hangat, dan sedikit lucu itu.</p>
+      <p class="closing">Pokoknya, hari ini kamu harus bahagia.<br><strong>Itu perintah.</strong> ♡</p>
+      <p class="signature">dari seseorang yang ikut senang melihatmu tumbuh</p>
+      <button class="replay-button" id="replayButton" type="button">ulang dari awal ↺</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
