@@ -3,56 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff5eb">
+  <meta name="theme-color" content="#f6f1e9">
   <meta name="description" content="Sebuah kejutan kecil untuk Melva yang ke-21.">
   <title>untuk melva, 21</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="scene" aria-live="polite">
-    <div class="grain" aria-hidden="true"></div>
-    <div class="confetti confetti-a" aria-hidden="true"></div>
-    <div class="confetti confetti-b" aria-hidden="true"></div>
-    <div class="confetti confetti-c" aria-hidden="true"></div>
-
-    <section class="intro panel" id="intro">
-      <p class="eyebrow">ada satu hal kecil</p>
-      <h1>melva,<br><em>sebentar ya.</em></h1>
-      <p class="intro-copy">Jangan lihat ke mana-mana.<br>Kejutannya sedang disiapkan.</p>
-      <button class="primary-button" id="startButton" type="button">
-        <span>mulai kejutan</span><span aria-hidden="true">↗</span>
-      </button>
-      <p class="tiny-note">volume boleh dinaikkan sedikit :)</p>
-    </section>
-
-    <section class="countdown panel is-hidden" id="countdown" aria-label="Hitung mundur">
-      <p class="eyebrow">tiga hal kecil untukmu</p>
-      <div class="count-number" id="countNumber">3</div>
-      <p class="count-caption" id="countCaption">siap?</p>
-    </section>
-
-    <section class="gift-stage panel is-hidden" id="giftStage">
-      <p class="eyebrow">khusus untuk melva</p>
-      <div class="gift-wrap" id="giftWrap">
-        <div class="sparkle sparkle-1">✦</div><div class="sparkle sparkle-2">✦</div><div class="sparkle sparkle-3">✦</div>
+  <main class="page">
+    <section class="gift-screen" id="giftScreen" aria-label="Kado untuk Melva">
+      <div class="gift-wrap">
+        <div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✦</div>
         <button class="gift" id="giftButton" type="button" aria-label="Buka kado">
-          <span class="lid"><i></i></span>
-          <span class="box"><i></i></span>
-          <span class="ribbon"></span>
+          <span class="lid"><i></i></span><span class="box"><i></i></span><span class="ribbon"></span>
         </button>
       </div>
-      <p class="tap-hint" id="tapHint">tekan kadonya pelan-pelan</p>
     </section>
 
-    <section class="message panel is-hidden" id="message">
-      <div class="message-mark" aria-hidden="true">21</div>
-      <p class="eyebrow">happy birthday, melva</p>
-      <h2>Selamat ulang tahun<br><em>yang ke-21.</em></h2>
-      <div class="rule"></div>
-      <p class="letter">Semoga di umur baru ini, hidup lebih sering memberimu alasan untuk tersenyum. Semoga hal-hal baik datang tanpa banyak aba-aba, dan kamu tetap jadi Melva yang seru, hangat, dan sedikit lucu itu.</p>
-      <p class="closing">Pokoknya, hari ini kamu harus bahagia.<br><strong>Itu perintah.</strong> ♡</p>
-      <p class="signature">dari seseorang yang ikut senang melihatmu tumbuh</p>
-      <button class="replay-button" id="replayButton" type="button">ulang dari awal ↺</button>
+    <section class="reveal is-hidden" id="reveal" aria-live="polite">
+      <header class="intro-line">
+        <span class="eyebrow">sepotong kecil tentang kamu</span>
+        <span class="date-mark">01 / 09 / 26</span>
+      </header>
+
+      <div class="photo-stage" aria-label="Kumpulan foto Melva">
+        <div class="photo-slide slide-one"><img src="assets/melva-collage.jpeg" alt="Kolase foto-foto Melva"></div>
+        <div class="photo-slide slide-two"><img src="assets/melva-collage.jpeg" alt=""></div>
+        <div class="photo-slide slide-three"><img src="assets/melva-collage.jpeg" alt=""></div>
+        <div class="photo-slide slide-four"><img src="assets/melva-collage.jpeg" alt=""></div>
+        <span class="photo-note">arsip kecil, orang favorit</span>
+      </div>
+
+      <div class="copy-grid">
+        <div>
+          <p class="eyebrow">happy 21st, melva</p>
+          <h1>dua puluh satu,<br><em>tetap lucu.</em></h1>
+        </div>
+        <p class="letter">Selamat ulang tahun. Semoga tahun ini isinya lebih banyak hal yang bikin kamu ketawa sampai lupa waktu, orang-orang yang terasa seperti rumah, dan kejutan baik yang datang diam-diam.</p>
+      </div>
+
+      <section class="facts" aria-labelledby="facts-title">
+        <div class="facts-heading"><span class="eyebrow">catatan kaki</span><h2 id="facts-title">21 hal kecil<br>yang sekarang boleh.</h2></div>
+        <ol class="fact-list">
+          <li><b>01</b><span>Umur legal untuk nyoblos, bikin keputusan besar, lalu tetap berubah pikiran.</span></li>
+          <li><b>02</b><span>Boleh minum minuman beralkohol secara legal di Indonesia, tapi jangan lupa: air putih tetap juara.</span></li>
+          <li><b>03</b><span>Sudah cukup dewasa untuk punya rencana. Juga cukup muda untuk membatalkannya demi tidur.</span></li>
+          <li><b>04</b><span>Mulai boleh bilang “aku sudah dewasa” dengan percaya diri, walau masih bingung mau makan apa.</span></li>
+        </ol>
+      </section>
+
+      <footer class="closing"><span>semoga selalu ada alasan</span><strong>untuk pulang sambil tersenyum.</strong><small>with love, dari seseorang yang senang melihatmu tumbuh</small></footer>
     </section>
   </main>
   <script src="script.js"></script>
