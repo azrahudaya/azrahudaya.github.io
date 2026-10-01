@@ -13,7 +13,6 @@
       --bg: #F5F5F5;
       --fg: #181818;
       --mute: #666666;
-      --border: #E0E0E0;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,8 +23,6 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 400;
       min-height: 100svh;
-      display: flex;
-      flex-direction: column;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -35,11 +32,10 @@
       width: 100%;
       max-width: 440px;
       margin: 0 auto;
-      padding: 9vh 20px 4vh;
-      flex: 1;
+      padding: 9vh 20px 5vh;
     }
 
-    .head { margin-bottom: 2.6rem; }
+    .head { margin-bottom: 2.4rem; }
 
     .head h1 {
       font-weight: 500;
@@ -48,114 +44,257 @@
       line-height: 1.05;
     }
 
-    .head p {
+    .head__role {
       margin-top: 0.5rem;
-      color: var(--mute);
+      color: var(--fg);
       font-size: 0.95rem;
+      font-weight: 500;
       letter-spacing: 0.01em;
     }
 
-    .links { display: flex; flex-direction: column; gap: 10px; }
-
-    .divider {
-      margin: 1.2rem 0 0.2rem;
+    .head__desc {
+      margin-top: 0.2rem;
       color: var(--mute);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
     }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .head h1, .head__role, .head__desc { animation: rise 0.5s ease both; }
+    .head__role { animation-delay: 0.08s; }
+    .head__desc { animation-delay: 0.14s; }
+
+    .links { display: flex; flex-direction: column; gap: 10px; }
 
     .link {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 13px 18px;
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      background: transparent;
-      transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.14s ease;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 3px;
+      border: 1px solid transparent;
+      transition: background 0.14s ease, border-color 0.14s ease;
       animation: rise 0.45s ease both;
     }
 
-    .link:nth-child(1)  { animation-delay: 0.05s; }
-    .link:nth-child(2)  { animation-delay: 0.10s; }
-    .link:nth-child(3)  { animation-delay: 0.15s; }
-    .link:nth-child(5)  { animation-delay: 0.20s; }
-    .link:nth-child(6)  { animation-delay: 0.25s; }
-    .link:nth-child(7)  { animation-delay: 0.30s; }
-    .link:nth-child(8)  { animation-delay: 0.35s; }
+    .link:nth-child(1) { animation-delay: 0.12s; }
+    .link:nth-child(2) { animation-delay: 0.17s; }
+    .link:nth-child(3) { animation-delay: 0.22s; }
+    .link:nth-child(4) { animation-delay: 0.27s; }
+    .link:nth-child(5) { animation-delay: 0.32s; }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .link__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-
-    .link__label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      line-height: 1.3;
-    }
-
-    .link__sub {
-      color: var(--mute);
-      font-size: 0.78rem;
-      line-height: 1.35;
-    }
-
-    .link__hint {
+    .link__icon {
       flex-shrink: 0;
-      color: var(--mute);
-      font-size: 0.7rem;
-      letter-spacing: 0.02em;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .link--primary {
-      background: var(--fg);
-      border-color: var(--fg);
-      color: var(--bg);
+    .link__icon svg { width: 18px; height: 18px; }
+
+    .link__body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
     }
 
-    .link--primary .link__sub { color: rgba(245, 245, 245, 0.72); }
-    .link--primary .link__hint { color: rgba(245, 245, 245, 0.72); }
+    .link__label { font-weight: 600; font-size: 0.9rem; line-height: 1.25; color: #fff; }
+    .link__sub   { font-size: 0.75rem; line-height: 1.3; color: rgba(255,255,255,0.85); }
+
+    .link--violet { background: #6d28d9; border-color: #5b21b6; box-shadow: rgba(255,255,255,0.28) 0 1px 0 0 inset; }
+    .link--black  { background: #000;     border-color: #000;     box-shadow: rgba(255,255,255,0.28) 0 1px 0 0 inset; }
+    .link--blue   { background: #0967C2;  border-color: #0059b3;  box-shadow: rgba(255,255,255,0.28) 0 1px 0 0 inset; }
+    .link--gray   { background: #6b7280;  border-color: #4b5563;  box-shadow: rgba(255,255,255,0.28) 0 1px 0 0 inset; }
+    .link--teal   { background: #0f766e;  border-color: #115e59;  box-shadow: rgba(255,255,255,0.28) 0 1px 0 0 inset; }
 
     @media (hover: hover) {
-      .link:not(.link--primary):hover {
-        background: var(--fg);
-        border-color: var(--fg);
-        color: var(--bg);
-      }
-      .link:not(.link--primary):hover .link__sub,
-      .link:not(.link--primary):hover .link__hint { color: rgba(245, 245, 245, 0.72); }
-
-      .link--primary:hover {
-        background: #333;
-        border-color: #333;
-      }
+      .link--violet:hover { background: #5b21b6; border-color: #5b21b6; }
+      .link--black:hover  { background: #24292e; border-color: #24292e; }
+      .link--blue:hover   { background: #0861b0; border-color: #0861b0; }
+      .link--gray:hover   { background: #4b5563; border-color: #4b5563; }
+      .link--teal:hover   { background: #115e59; border-color: #115e59; }
     }
 
-    .link:active { transform: translateY(1px); }
+    .link--violet:active { background: #4c1d95; border-color: #4c1d95; }
+    .link--black:active  { background: #1a1a1a; }
+    .link--blue:active   { background: #0059b3; border-color: #0059b3; }
+    .link--gray:active   { background: #374151; border-color: #374151; }
+    .link--teal:active   { background: #134e4a; border-color: #134e4a; }
 
-    .link:focus-visible {
-      outline: 2px solid var(--fg);
-      outline-offset: 2px;
+    .link:focus-visible { outline: 2px solid #181818; outline-offset: 2px; }
+
+    .wall { margin-top: 2.8rem; }
+
+    .wall__head {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mute);
+      margin-bottom: 0.9rem;
+    }
+
+    .wall__box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 1px dashed #c9c9c9;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: transparent;
+      scrollbar-width: thin;
+      scrollbar-color: #c9c9c9 transparent;
+    }
+
+    .wall__box::-webkit-scrollbar { width: 8px; }
+    .wall__box::-webkit-scrollbar-track { background: transparent; }
+    .wall__box::-webkit-scrollbar-thumb { background: #c9c9c9; border-radius: 4px; }
+    .wall__box::-webkit-scrollbar-thumb:hover { background: #a9a9a9; }
+
+    .wall__card {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .wall__avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #e5e5e5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wall__avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wall__text {
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--fg);
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-width: 0;
+    }
+
+    .wall__body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .wall__meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .wall__name {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--fg);
+    }
+
+    .wall__time {
+      color: var(--mute);
+      font-size: 0.68rem;
+      flex-shrink: 0;
+    }
+
+    .wall__empty {
+      font-size: 0.8rem;
+      color: var(--mute);
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .wall__input { display: flex; gap: 8px; margin-top: 12px; }
+
+    .wall__input textarea {
+      flex: 1;
+      resize: none;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: var(--fg);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .wall__input textarea:focus { outline: none; border-color: #181818; }
+
+    .wall__input input {
+      flex: 1;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      color: var(--fg);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .wall__input input:focus { outline: none; border-color: #181818; }
+
+    .wall__send {
+      flex-shrink: 0;
+      align-self: center;
+      padding: 7px 14px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.78rem;
+      background: var(--fg);
+      color: #fff;
+      border: 1px solid var(--fg);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .wall__send:hover { background: #333; }
+    .wall__send:focus-visible { outline: 2px solid #181818; outline-offset: 2px; }
+
+    .wall__status { margin-top: 8px; font-size: 0.76rem; color: #b91c1c; min-height: 1em; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .head h1, .head__role, .head__desc, .link { animation: none; }
     }
 
     footer {
       max-width: 440px;
-      margin: 3.5rem auto 0;
+      margin: 3rem auto 0;
       width: 100%;
       padding: 0 20px 4vh;
       color: var(--mute);
       font-size: 0.72rem;
       letter-spacing: 0.03em;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .link { animation: none; }
     }
   </style>
 </head>
@@ -163,63 +302,214 @@
   <main>
     <header class="head">
       <h1>Azra Hudaya</h1>
-      <p>full-stack developer, building web apps &amp; products</p>
+      <p class="head__role">it consultant (larp)</p>
     </header>
 
     <nav class="links" aria-label="Links">
-      <a class="link link--primary" href="/porto/">
-        <span class="link__text">
+
+      <a class="link link--violet" href="/porto/">
+        <span class="link__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="7" width="19" height="13" rx="2.5"/>
+            <path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/>
+            <path d="M2.5 12.5h19"/>
+          </svg>
+        </span>
+        <span class="link__body">
           <span class="link__label">Portfolio</span>
           <span class="link__sub">selected work</span>
         </span>
       </a>
 
-      <a class="link" href="https://github.com/azrahudaya" target="_blank" rel="noopener noreferrer">
-        <span class="link__text">
+      <a class="link link--black" href="https://github.com/azrahudaya" target="_blank" rel="noopener noreferrer">
+        <span class="link__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+        </span>
+        <span class="link__body">
           <span class="link__label">GitHub</span>
           <span class="link__sub">code &amp; side projects</span>
         </span>
       </a>
 
-      <span class="divider">Projects</span>
-
-      <a class="link" href="https://sahabatremaja.com" target="_blank" rel="noopener noreferrer">
-        <span class="link__text">
-          <span class="link__label">Sahabat Remaja</span>
-          <span class="link__sub">teen health companion</span>
+      <a class="link link--blue" href="https://www.linkedin.com/in/azrahudaya" target="_blank" rel="noopener noreferrer">
+        <span class="link__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+          </svg>
+        </span>
+        <span class="link__body">
+          <span class="link__label">LinkedIn</span>
+          <span class="link__sub">connect with me</span>
         </span>
       </a>
 
-      <a class="link" href="https://sefrekuensi.app" target="_blank" rel="noopener noreferrer">
-        <span class="link__text">
-          <span class="link__label">sefrekuensi</span>
-          <span class="link__sub">meet Gunadarma students</span>
+      <a class="link link--gray" href="https://github.com/azrahudaya/klik-component" target="_blank" rel="noopener noreferrer">
+        <span class="link__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/>
+            <rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/>
+            <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/>
+            <rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>
+          </svg>
+        </span>
+        <span class="link__body">
+          <span class="link__label">Klik Component</span>
+          <span class="link__sub">Tailwind component library</span>
         </span>
       </a>
 
-      <a class="link" href="https://sahabatcerdikdm.com" target="_blank" rel="noopener noreferrer">
-        <span class="link__text">
-          <span class="link__label">Sahabat CERDIK DM</span>
-          <span class="link__sub">diabetes prevention for women</span>
+      <a class="link link--teal" href="mailto:mail@ajra.tech">
+        <span class="link__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+            <path d="M3 7l9 6 9-6"/>
+          </svg>
         </span>
-      </a>
-
-      <a class="link" href="https://growthskill.id" target="_blank" rel="noopener noreferrer">
-        <span class="link__text">
-          <span class="link__label">GrowthSkill</span>
-          <span class="link__sub">free digital skill courses</span>
-        </span>
-      </a>
-
-      <a class="link" href="mailto:mail@ajra.tech">
-        <span class="link__text">
+        <span class="link__body">
           <span class="link__label">Email</span>
           <span class="link__sub">mail@ajra.tech</span>
         </span>
       </a>
+
     </nav>
+
+    <section class="wall" aria-label="Pesan anonim">
+      <div class="wall__head">pesan anonim</div>
+      <div class="wall__box" id="wallBox"></div>
+      <div class="wall__input">
+        <input id="wallName" type="text" maxlength="50" placeholder="nama (opsional)" aria-label="nama">
+      </div>
+      <div class="wall__input">
+        <textarea id="wallMsg" rows="2" placeholder="tulis pesan..." aria-label="tulis pesan anonim"></textarea>
+        <button class="wall__send" id="wallSend" type="button">kirim</button>
+      </div>
+      <div class="wall__status" id="wallStatus" role="status"></div>
+    </section>
   </main>
 
   <footer>&copy; 2026 Azra Hudaya</footer>
+
+  <script>
+    var API = 'https://wall.ajra.tech';
+
+    function timeAgo(ts) {
+      var s = Math.floor((Date.now() - ts) / 1000);
+      if (s < 60) return 'baru saja';
+      var m = Math.floor(s / 60);
+      if (m < 60) return m + ' mnt lalu';
+      var h = Math.floor(m / 60);
+      if (h < 24) return h + ' jam lalu';
+      return Math.floor(h / 24) + ' hari lalu';
+    }
+
+    var wallBox = document.getElementById('wallBox');
+    var wallMsg = document.getElementById('wallMsg');
+    var wallName = document.getElementById('wallName');
+    var wallSend = document.getElementById('wallSend');
+    var wallStatus = document.getElementById('wallStatus');
+
+    function renderWall(list) {
+      wallBox.innerHTML = '';
+      if (!list || !list.length) {
+        var empty = document.createElement('div');
+        empty.className = 'wall__empty';
+        empty.textContent = 'belum ada pesan. jadi yang pertama.';
+        wallBox.appendChild(empty);
+        return;
+      }
+      list.forEach(function (m) {
+        var card = document.createElement('div');
+        card.className = 'wall__card';
+        var av = document.createElement('span');
+        av.className = 'wall__avatar';
+        var img = document.createElement('img');
+        img.src = 'avatars/' + m.avatar;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.onerror = function () {
+          av.style.background = '#ccc';
+          av.textContent = '?';
+        };
+        av.appendChild(img);
+
+        var body = document.createElement('div');
+        body.className = 'wall__body';
+
+        var meta = document.createElement('div');
+        meta.className = 'wall__meta';
+        var nm = document.createElement('span');
+        nm.className = 'wall__name';
+        nm.textContent = m.name || 'anonim';
+        var tm = document.createElement('span');
+        tm.className = 'wall__time';
+        tm.textContent = m.ts ? timeAgo(m.ts) : '';
+        meta.appendChild(nm);
+        meta.appendChild(tm);
+
+        var txt = document.createElement('span');
+        txt.className = 'wall__text';
+        txt.textContent = m.text;
+
+        body.appendChild(meta);
+        body.appendChild(txt);
+        card.appendChild(av);
+        card.appendChild(body);
+        wallBox.appendChild(card);
+      });
+    }
+
+    function loadMessages() {
+      fetch(API + '/messages')
+        .then(function (r) { return r.json(); })
+        .then(renderWall)
+        .catch(function () { renderWall([]); });
+    }
+
+    wallSend.addEventListener('click', function () {
+      var text = wallMsg.value.trim();
+      if (!text) return;
+      var name = wallName.value.trim();
+      wallStatus.textContent = '';
+      wallSend.disabled = true;
+      fetch(API + '/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, text: text })
+      })
+        .then(function (r) {
+          return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+        })
+        .then(function (res) {
+          if (!res.ok) {
+            wallStatus.textContent = res.data.error || 'gagal kirim';
+            wallSend.disabled = false;
+            return;
+          }
+          wallMsg.value = '';
+          wallName.value = '';
+          wallSend.disabled = false;
+          loadMessages();
+        })
+        .catch(function () {
+          wallStatus.textContent = 'gagal kirim';
+          wallSend.disabled = false;
+        });
+    });
+
+    wallName.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); wallMsg.focus(); }
+    });
+
+    wallMsg.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        wallSend.click();
+      }
+    });
+
+    loadMessages();
+  </script>
 </body>
 </html>
