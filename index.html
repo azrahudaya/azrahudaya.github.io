@@ -159,6 +159,149 @@
 
     .link:focus-visible { outline: 2px solid #181818; outline-offset: 2px; }
 
+    .wall { margin-top: 2.8rem; }
+
+    .wall__box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 1px dashed #c9c9c9;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: transparent;
+      scrollbar-width: thin;
+      scrollbar-color: #c9c9c9 transparent;
+    }
+
+    .wall__box::-webkit-scrollbar { width: 8px; }
+    .wall__box::-webkit-scrollbar-track { background: transparent; }
+    .wall__box::-webkit-scrollbar-thumb { background: #c9c9c9; border-radius: 4px; }
+    .wall__box::-webkit-scrollbar-thumb:hover { background: #a9a9a9; }
+
+    .wall__card {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .wall__avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #e5e5e5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wall__avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wall__text {
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--fg);
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-width: 0;
+    }
+
+    .wall__body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .wall__meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .wall__name {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--fg);
+    }
+
+    .wall__time {
+      color: var(--mute);
+      font-size: 0.68rem;
+      flex-shrink: 0;
+    }
+
+    .wall__empty {
+      font-size: 0.8rem;
+      color: var(--mute);
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .wall__input { display: flex; gap: 8px; margin-top: 12px; }
+
+    .wall__input textarea {
+      flex: 1;
+      resize: none;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: var(--fg);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .wall__input textarea:focus { outline: none; border-color: #181818; }
+
+    .wall__input input {
+      flex: 1;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      color: var(--fg);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .wall__input input:focus { outline: none; border-color: #181818; }
+
+    .wall__send {
+      flex-shrink: 0;
+      align-self: center;
+      padding: 7px 14px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.78rem;
+      background: var(--fg);
+      color: #fff;
+      border: 1px solid var(--fg);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .wall__send:hover { background: #333; }
+    .wall__send:focus-visible { outline: 2px solid #181818; outline-offset: 2px; }
+
+    .wall__status { margin-top: 8px; font-size: 0.76rem; color: #b91c1c; min-height: 1em; }
+
     @media (prefers-reduced-motion: reduce) {
       .head h1, .head__role, .head__desc, .link { animation: none; }
     }
@@ -253,8 +396,141 @@
       </a>
 
     </nav>
+
+    <section class="wall" aria-label="Pesan anonim">
+      <div class="wall__box" id="wallBox"></div>
+      <div class="wall__input">
+        <input id="wallName" type="text" maxlength="50" placeholder="nama (opsional)" aria-label="nama">
+      </div>
+      <div class="wall__input">
+        <textarea id="wallMsg" rows="2" placeholder="tulis pesan..." aria-label="tulis pesan anonim"></textarea>
+        <button class="wall__send" id="wallSend" type="button">kirim</button>
+      </div>
+      <div class="wall__status" id="wallStatus" role="status"></div>
+    </section>
   </main>
 
   <footer>&copy; 2026 Azra Hudaya</footer>
+
+  <script>
+    var API = 'https://wall.ajra.tech';
+
+    function timeAgo(ts) {
+      var s = Math.floor((Date.now() - ts) / 1000);
+      if (s < 60) return 'baru saja';
+      var m = Math.floor(s / 60);
+      if (m < 60) return m + ' mnt lalu';
+      var h = Math.floor(m / 60);
+      if (h < 24) return h + ' jam lalu';
+      return Math.floor(h / 24) + ' hari lalu';
+    }
+
+    var wallBox = document.getElementById('wallBox');
+    var wallMsg = document.getElementById('wallMsg');
+    var wallName = document.getElementById('wallName');
+    var wallSend = document.getElementById('wallSend');
+    var wallStatus = document.getElementById('wallStatus');
+
+    function renderWall(list) {
+      wallBox.innerHTML = '';
+      if (!list || !list.length) {
+        var empty = document.createElement('div');
+        empty.className = 'wall__empty';
+        empty.textContent = 'belum ada pesan. jadi yang pertama.';
+        wallBox.appendChild(empty);
+        return;
+      }
+      list.forEach(function (m) {
+        var card = document.createElement('div');
+        card.className = 'wall__card';
+        var av = document.createElement('span');
+        av.className = 'wall__avatar';
+        var img = document.createElement('img');
+        img.src = 'avatars/' + m.avatar;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.onerror = function () {
+          av.style.background = '#ccc';
+          av.textContent = '?';
+        };
+        av.appendChild(img);
+
+        var body = document.createElement('div');
+        body.className = 'wall__body';
+
+        var meta = document.createElement('div');
+        meta.className = 'wall__meta';
+        var nm = document.createElement('span');
+        nm.className = 'wall__name';
+        nm.textContent = m.name || 'anonim';
+        var tm = document.createElement('span');
+        tm.className = 'wall__time';
+        tm.textContent = m.ts ? timeAgo(m.ts) : '';
+        meta.appendChild(nm);
+        meta.appendChild(tm);
+
+        var txt = document.createElement('span');
+        txt.className = 'wall__text';
+        txt.textContent = m.text;
+
+        body.appendChild(meta);
+        body.appendChild(txt);
+        card.appendChild(av);
+        card.appendChild(body);
+        wallBox.appendChild(card);
+      });
+    }
+
+    function loadMessages() {
+      fetch(API + '/messages')
+        .then(function (r) { return r.json(); })
+        .then(renderWall)
+        .catch(function () { renderWall([]); });
+    }
+
+    wallSend.addEventListener('click', function () {
+      var text = wallMsg.value.trim();
+      if (!text) return;
+      var name = wallName.value.trim();
+      wallStatus.textContent = '';
+      wallSend.disabled = true;
+      fetch(API + '/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, text: text })
+      })
+        .then(function (r) {
+          return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+        })
+        .then(function (res) {
+          if (!res.ok) {
+            wallStatus.textContent = res.data.error || 'gagal kirim';
+            wallSend.disabled = false;
+            return;
+          }
+          wallMsg.value = '';
+          wallName.value = '';
+          wallSend.disabled = false;
+          loadMessages();
+        })
+        .catch(function () {
+          wallStatus.textContent = 'gagal kirim';
+          wallSend.disabled = false;
+        });
+    });
+
+    wallName.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); wallMsg.focus(); }
+    });
+
+    wallMsg.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        wallSend.click();
+      }
+    });
+
+    loadMessages();
+  </script>
 </body>
 </html>
