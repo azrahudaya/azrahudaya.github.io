@@ -530,6 +530,26 @@
       }
     });
 
+    // Jaga input + tombol kirim tetap terlihat di atas keyboard HP.
+    // Keyboard HP baru muncul sesudah focus, jadi tunggu sebentar dulu.
+    function reveal(el) {
+      setTimeout(function () {
+        var vv = window.visualViewport;
+        var slack = 16;
+        if (vv && vv.height) {
+          var rect = el.getBoundingClientRect();
+          if (rect.bottom > vv.height - slack) {
+            window.scrollBy({ top: rect.bottom - vv.height + slack, behavior: 'smooth' });
+          }
+        } else {
+          el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }, 300);
+    }
+
+    wallName.addEventListener('focus', function () { reveal(wallName); });
+    wallMsg.addEventListener('focus', function () { reveal(wallMsg); });
+
     loadMessages();
   </script>
 </body>
