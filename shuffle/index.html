@@ -892,7 +892,7 @@
       }
 
       // Inisialisasi kartu ke DOM secara permanen (tanpa destroy-recreate saat shuffle)
-      function initCards() {
+      function initCards(isInitialEntrance = false) {
         cardRow.innerHTML = '';
 
         cards.forEach((item, index) => {
@@ -910,7 +910,6 @@
               <div class="card-face card-face-front">
                 <div class="card-front-top">
                   <div class="card-color-dot"></div>
-                  <span class="card-index"></span>
                 </div>
                 <div class="card-front-body">
                   <p class="card-content"></p>
@@ -966,6 +965,10 @@
         });
 
         updateCardsDOM();
+
+        if (isInitialEntrance) {
+          runEntranceShuffle();
+        }
       }
 
       // Perbarui teks dan warna pada kartu DOM tanpa merusak elemen
@@ -1390,6 +1393,144 @@
         });
       }
 
+      // ANIMASI PEMBUKA SAAT RELOAD: Tumpukan kartu mendarat dari atas -> Dikocok -> Dibagikan ke meja
+      function runEntranceShuffle() {
+        isShuffling = true;
+        const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+        if (wraps.length <= 1) return;
+
+        const rowRect = cardRow.getBoundingClientRect();
+        const midX = rowRect.width / 2;
+        const midY = rowRect.height / 2;
+
+        // Posisikan semua kartu sejak awal di tengah sebagai tumpukan rapi melayang (belum kelihatan)
+        wraps.forEach((wrap, i) => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = rect.left - rowRect.left + rect.width / 2;
+          const curY = rect.top - rowRect.top + rect.height / 2;
+          const dx = midX - curX;
+          const dy = midY - curY - (i * 3);
+
+          gsap.set(wrap, {
+            x: dx,
+            y: dy - 70,
+            opacity: 0,
+            scale: 0.96,
+            rotateX: 14,
+            rotationZ: 0,
+            zIndex: 10 + i
+          });
+        });
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            isShuffling = false;
+            statusDot.classList.remove('active');
+            statusLabel.textContent = 'Siap';
+          }
+        });
+
+        // 1. Tumpukan kartu mendarat mulus ke tengah meja (0.05s - 0.45s)
+        tl.to(wraps, {
+          y: "+=70",
+          opacity: 1,
+          duration: 0.42,
+          ease: "power2.out"
+        }, 0.08);
+        tl.call(() => playCardSound('tap'), null, 0.45);
+
+        // 2. Triple Cut Split: Tumpukan terbelah tiga arah (0.55s - 0.92s)
+        wraps.forEach((wrap, i) => {
+          let sideX = 0;
+          let rotZ = 0;
+          if (i === 0) {
+            sideX = -170;
+            rotZ = -12;
+          } else if (i === wraps.length - 1) {
+            sideX = 170;
+            rotZ = 12;
+          } else {
+            sideX = (i % 2 === 0 ? -60 : 60);
+            rotZ = (i % 2 === 0 ? -4 : 4);
+          }
+
+          tl.to(wrap, {
+            x: `+=${sideX}`,
+            y: "-=25",
+            rotationZ: rotZ,
+            duration: 0.38,
+            ease: "power2.out"
+          }, 0.55);
+        });
+        tl.call(() => playCardSound('cut'), null, 0.55);
+
+        // 3. Riffle Weave (0.95s - 1.4s)
+        tl.call(() => playCardSound('riffle'), null, 0.95);
+        wraps.forEach((wrap, i) => {
+          const isEven = i % 2 === 0;
+          tl.to(wrap, {
+            x: isEven ? "-=40" : "+=40",
+            y: `+=${18 + (i * 4)}`,
+            rotationZ: isEven ? 5 : -5,
+            duration: 0.32,
+            ease: "sine.inOut"
+          }, 0.95 + (i * 0.05));
+        });
+
+        // 4. Waterfall Bridge Cascade (1.35s - 1.75s)
+        wraps.forEach((wrap, i) => {
+          tl.to(wrap, {
+            x: (i % 2 === 0 ? "+=70" : "-=70"),
+            y: "-=20",
+            rotationZ: (i % 2 === 0 ? -8 : 8),
+            duration: 0.3,
+            ease: "power2.inOut"
+          }, 1.35 + (i * 0.04));
+        });
+        tl.call(() => playCardSound('riffle'), null, 1.45);
+
+        // 5. Square Up ke Titik Tengah Meja (1.75s - 2.05s)
+        wraps.forEach((wrap, i) => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = rect.left - rowRect.left + rect.width / 2;
+          const curY = rect.top - rowRect.top + rect.height / 2;
+          const dx = midX - curX;
+          const dy = midY - curY;
+
+          tl.to(wrap, {
+            x: dx,
+            y: dy,
+            rotateX: 0,
+            rotationZ: 0,
+            scale: 1,
+            duration: 0.32,
+            ease: "power3.out"
+          }, 1.75);
+        });
+        tl.call(() => playCardSound('tap'), null, 2.05);
+
+        // 6. Update Data Teracak Diam-diam Saat Masih Bertumpuk (2.1s)
+        tl.call(() => {
+          cards = trulyRandomShuffle(cards);
+          updateCardsDOM();
+        }, null, 2.1);
+
+        // 7. Deal Out Meluncur Mulus ke 5 Posisi Meja Masing-masing (2.15s - 2.7s)
+        wraps.forEach((wrap, idx) => {
+          tl.to(wrap, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotateX: 0,
+            rotateY: 0,
+            rotationZ: 0,
+            duration: 0.55,
+            ease: "back.out(1.2)",
+            onStart: () => playCardSound('cut')
+          }, 2.18 + (idx * 0.08));
+        });
+      }
+
       function openModal() {
         jsonInput.value = JSON.stringify(cards, null, 2);
         errorBox.style.display = 'none';
@@ -1468,12 +1609,9 @@
         }
       });
 
-      // Inisialisasi awal & Auto Shuffle saat reload
+      // Inisialisasi awal & Awalan Animasi Pembuka Halus
       loadData();
-      initCards();
-      setTimeout(() => {
-        shuffle();
-      }, 350);
+      initCards(true);
     })();
   </script>
 </body>
