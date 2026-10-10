@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Shuffle | ajra.tech</title>
-  <meta name="description" content="Kartu remi warna-warni interaktif dengan animasi shuffle dan kustomisasi JSON.">
+  <meta name="description" content="Kartu remi warna-warni interaktif dengan animasi mengocok nyata dan kustomisasi JSON.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -25,7 +25,7 @@
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      padding: 32px 20px;
+      padding: 40px 20px;
       user-select: none;
       -webkit-font-smoothing: antialiased;
     }
@@ -39,9 +39,9 @@
       gap: 12px;
       z-index: 50;
       background: #ffffff;
-      padding: 6px 8px;
+      padding: 6px 10px;
       border-radius: 9999px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
       border: 1px solid #f1f5f9;
     }
 
@@ -60,7 +60,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.15s ease;
-      min-height: 36px;
+      min-height: 38px;
     }
 
     .btn:hover:not(:disabled) {
@@ -84,8 +84,39 @@
     }
 
     .btn:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: not-allowed;
+    }
+
+    /* Status indicator */
+    .status-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .status-dot.active {
+      background: #f59e0b;
+      animation: blink 0.6s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 0.3; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.1); }
     }
 
     /* Main Deck Stage */
@@ -96,8 +127,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      perspective: 1600px;
-      margin-top: 40px;
+      perspective: 2000px;
+      margin-top: 50px;
     }
 
     .card-row {
@@ -105,17 +136,17 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 28px;
+      gap: 32px;
       width: 100%;
       position: relative;
-      min-height: 400px;
+      min-height: 420px;
     }
 
     /* Standard Playing Card / Uno Card Proportions: 220px x 330px (~1:1.5 ratio) */
     .card-wrap {
       width: 220px;
       height: 330px;
-      perspective: 1200px;
+      perspective: 1400px;
       position: relative;
       cursor: pointer;
       flex-shrink: 0;
@@ -128,7 +159,7 @@
 
     .card-wrap.is-shuffling {
       pointer-events: none;
-      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+      /* Animasi digerakkan via custom keyframe/JS transition */
     }
 
     .card-inner {
@@ -199,8 +230,8 @@
     }
 
     .card-color-dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background-color: var(--card-color, #e11d48);
     }
@@ -348,6 +379,8 @@
     @media (max-width: 640px) {
       .controls {
         top: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
       .card-wrap {
         width: 180px;
@@ -368,10 +401,14 @@
   <div class="controls">
     <button class="btn btn-primary" id="btnShuffle" type="button">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
-      <span>Shuffle</span>
+      <span>Kocok Kartu</span>
     </button>
     <button class="btn" id="btnFlipToggle" type="button">Buka Semua</button>
     <button class="btn" id="btnOpenJson" type="button">Edit JSON</button>
+    <div class="status-badge">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusLabel">Siap</span>
+    </div>
   </div>
 
   <!-- Stage -->
@@ -390,7 +427,7 @@
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          Format array JSON. Tiap item memiliki properti: <code>title</code>, <code>content</code>, dan <code>color</code> (kode HEX).
+          Format array JSON. Tiap item memiliki properti: <code>title</code>, <code>content</code>, dan <code>color</code> (kode HEX warna kartu).
         </p>
         <div class="error-box" id="errorBox"></div>
         <textarea class="json-textarea" id="jsonInput" spellcheck="false"></textarea>
@@ -409,21 +446,25 @@
       // 4 kartu Uno default dengan warna solid yang cerah dan tajam
       const DEFAULT_CARDS = [
         {
+          id: 'c1',
           title: "Kartu Merah",
           content: "Fokus pada hal paling berdampak. Singkirkan yang tidak perlu.",
           color: "#e11d48"
         },
         {
+          id: 'c2',
           title: "Kartu Biru",
           content: "Ketenangan dan kejernihan berpikir menghasilkan keputusan tepat.",
           color: "#2563eb"
         },
         {
+          id: 'c3',
           title: "Kartu Hijau",
           content: "Pertumbuhan yang konsisten berawal dari langkah kecil setiap hari.",
           color: "#059669"
         },
         {
+          id: 'c4',
           title: "Kartu Kuning",
           content: "Eksplorasi ide baru dengan rasa ingin tahu tanpa batas.",
           color: "#d97706"
@@ -444,6 +485,67 @@
       const btnSaveJson = document.getElementById('btnSaveJson');
       const jsonInput = document.getElementById('jsonInput');
       const errorBox = document.getElementById('errorBox');
+      const statusDot = document.getElementById('statusDot');
+      const statusLabel = document.getElementById('statusLabel');
+
+      // Web Audio API sintetis untuk efek gesekan kartu realistis
+      let audioCtx = null;
+      function playCardSound(type) {
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+
+          const now = audioCtx.currentTime;
+
+          if (type === 'flip') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(380, now);
+            osc.frequency.exponentialRampToValueAtTime(680, now + 0.07);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            osc.start(now);
+            osc.stop(now + 0.08);
+          } else if (type === 'cut') {
+            // Suara gesekan tumpukan kartu terpotong
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.exponentialRampToValueAtTime(320, now + 0.09);
+            gain.gain.setValueAtTime(0.06, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc.start(now);
+            osc.stop(now + 0.1);
+          } else if (type === 'riffle') {
+            // Suara daun kartu berderak (riffle shuffle flutter)
+            for (let i = 0; i < 6; i++) {
+              const tickTime = now + (i * 0.035);
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain);
+              gain.connect(audioCtx.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(500 + (Math.random() * 250), tickTime);
+              gain.gain.setValueAtTime(0.04, tickTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, tickTime + 0.025);
+              osc.start(tickTime);
+              osc.stop(tickTime + 0.025);
+            }
+          }
+        } catch (e) {
+          // Audio opsional
+        }
+      }
 
       function loadData() {
         try {
@@ -471,6 +573,7 @@
         cards.forEach((item, index) => {
           const cardWrap = document.createElement('div');
           cardWrap.className = 'card-wrap';
+          cardWrap.id = `card-${index}`;
           cardWrap.tabIndex = 0;
           cardWrap.style.setProperty('--card-color', item.color || '#e11d48');
           cardWrap.setAttribute('role', 'button');
@@ -505,6 +608,7 @@
           cardWrap.addEventListener('click', () => {
             if (isShuffling) return;
             cardWrap.classList.toggle('is-flipped');
+            playCardSound('flip');
             syncToggleButtonText();
           });
 
@@ -514,6 +618,7 @@
               e.preventDefault();
               if (isShuffling) return;
               cardWrap.classList.toggle('is-flipped');
+              playCardSound('flip');
               syncToggleButtonText();
             }
           });
@@ -546,11 +651,48 @@
             } else {
               card.classList.remove('is-flipped');
             }
+            playCardSound('flip');
             syncToggleButtonText();
           }, idx * 70);
         });
       }
 
+      // Algoritma Pengacakan Benar-benar Acak (True Random Derangement / Fisher-Yates Berbobot)
+      function trulyRandomShuffle(arr) {
+        if (arr.length <= 1) return arr;
+        const originalColors = arr.map(c => c.color + (c.id || c.title));
+        let result = [...arr];
+
+        // Lakukan pengacakan sampai posisi berubah nyata
+        let attempts = 0;
+        let changed = false;
+
+        while (attempts < 10 && !changed) {
+          attempts++;
+          for (let i = result.length - 1; i > 0; i--) {
+            // Crypto random untuk true entropy
+            const randArray = new Uint32Array(1);
+            window.crypto.getRandomValues(randArray);
+            const j = randArray[0] % (i + 1);
+            [result[i], result[j]] = [result[j], result[i]];
+          }
+
+          // Cek apakah minimal 2 elemen berpindah posisi
+          let matchCount = 0;
+          for (let k = 0; k < result.length; k++) {
+            if (result[k].color + (result[k].id || result[k].title) === originalColors[k]) {
+              matchCount++;
+            }
+          }
+          if (matchCount < result.length) {
+            changed = true;
+          }
+        }
+
+        return result;
+      }
+
+      // Animasi Mengocok Kartu Nyata (Full Multi-Stage Physical Shuffling)
       function shuffle() {
         if (isShuffling) return;
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
@@ -559,76 +701,117 @@
         isShuffling = true;
         btnShuffle.disabled = true;
         btnFlipToggle.disabled = true;
+        statusDot.classList.add('active');
+        statusLabel.textContent = 'Mengocok...';
 
-        // Tutup kartu terlebih dahulu
+        // 1. Tutup semua kartu yang sedang terbuka
         wraps.forEach(w => {
           w.classList.remove('is-flipped');
           w.classList.add('is-shuffling');
         });
         syncToggleButtonText();
 
-        // Kumpulkan ke tengah layar (stacking deck)
         const rowRect = cardRow.getBoundingClientRect();
         const midX = rowRect.width / 2;
         const midY = rowRect.height / 2;
 
+        // FASE 1: Semua kartu bergerak menyatu ke tengah menjadi tumpukan rapi (0ms - 400ms)
         wraps.forEach((wrap, i) => {
           const rect = wrap.getBoundingClientRect();
           const curX = rect.left - rowRect.left + rect.width / 2;
           const curY = rect.top - rowRect.top + rect.height / 2;
           const dx = midX - curX;
-          const dy = midY - curY;
-          const rot = (Math.random() - 0.5) * 16;
+          const dy = midY - curY - (i * 2); // sedikit offset vertikal agar terasa tebal bertumpuk
 
-          wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${rot}deg) scale(0.96)`;
+          wrap.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1)';
+          wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(0deg) scale(0.96)`;
           wrap.style.zIndex = `${10 + i}`;
         });
+        playCardSound('cut');
 
-        // Efek kocok kartu (riffle jitter)
+        // FASE 2: Potong tumpukan menjadi dua (kiri dan kanan) (450ms)
         setTimeout(() => {
-          wraps.forEach((wrap) => {
-            const rowRectNow = cardRow.getBoundingClientRect();
+          const half = Math.ceil(wraps.length / 2);
+          wraps.forEach((wrap, i) => {
             const rect = wrap.getBoundingClientRect();
-            const curX = rect.left - rowRectNow.left + rect.width / 2;
-            const curY = rect.top - rowRectNow.top + rect.height / 2;
-            const jx = (Math.random() - 0.5) * 50;
-            const jy = (Math.random() - 0.5) * 30;
-            const dx = (rowRectNow.width / 2) - curX + jx;
-            const dy = (rowRectNow.height / 2) - curY + jy;
-            const rot = (Math.random() - 0.5) * 28;
+            const curX = rect.left - rowRect.left + rect.width / 2;
+            const curY = rect.top - rowRect.top + rect.height / 2;
+            const isLeft = i < half;
+            const sideOffset = isLeft ? -130 : 130;
+            const sideAngle = isLeft ? -9 : 9;
+            const dx = (midX - curX) + sideOffset;
+            const dy = (midY - curY);
 
-            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${rot}deg) scale(1)`;
+            wrap.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.25, 0.64, 1)';
+            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${sideAngle}deg) scale(0.96)`;
           });
-        }, 320);
+          playCardSound('cut');
+        }, 450);
 
-        // Acak array dan sebar kembali
+        // FASE 3: Riffle Interleave (Kocok kartu silang berderak) (850ms)
         setTimeout(() => {
-          for (let i = cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [cards[i], cards[j]] = [cards[j], cards[i]];
-          }
+          playCardSound('riffle');
+          wraps.forEach((wrap, i) => {
+            const rect = wrap.getBoundingClientRect();
+            const curX = rect.left - rowRect.left + rect.width / 2;
+            const curY = rect.top - rowRect.top + rect.height / 2;
+            // Geser silang bolak-balik
+            const interleaveX = (i % 2 === 0 ? 30 : -30);
+            const interleaveRot = (i % 2 === 0 ? 5 : -5);
+            const dx = (midX - curX) + interleaveX;
+            const dy = (midY - curY);
 
+            wrap.style.transition = 'transform 0.28s ease-in-out';
+            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${interleaveRot}deg) scale(1)`;
+          });
+        }, 850);
+
+        // FASE 4: Kocokan kedua & rapikan ke tengah (Square Up) (1200ms)
+        setTimeout(() => {
+          playCardSound('cut');
+          wraps.forEach((wrap, i) => {
+            const rect = wrap.getBoundingClientRect();
+            const curX = rect.left - rowRect.left + rect.width / 2;
+            const curY = rect.top - rowRect.top + rect.height / 2;
+            const dx = midX - curX;
+            const dy = midY - curY;
+
+            wrap.style.transition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)';
+            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(0deg) scale(0.98)`;
+          });
+        }, 1200);
+
+        // FASE 5: Terapkan urutan acak sejati & Deal Out ke posisi masing-masing (1550ms)
+        setTimeout(() => {
+          cards = trulyRandomShuffle(cards);
           renderCards();
 
-          // Deal out animasi halus
+          // Deal out animasi bertahap (stagger) meluncur ke meja
           const newWraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
           newWraps.forEach((wrap, idx) => {
             wrap.style.opacity = '0';
-            wrap.style.transform = 'scale(0.85) translateY(20px)';
+            wrap.style.transform = 'scale(0.85) translateY(-30px)';
             setTimeout(() => {
               wrap.style.transition = 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
               wrap.style.opacity = '1';
               wrap.style.transform = 'none';
-            }, idx * 60);
+              playCardSound('cut');
+            }, idx * 75);
           });
 
+          // Selesai pengocokan
           setTimeout(() => {
             isShuffling = false;
             btnShuffle.disabled = false;
             btnFlipToggle.disabled = false;
-          }, newWraps.length * 60 + 150);
+            statusDot.classList.remove('active');
+            statusLabel.textContent = 'Terkocok!';
+            setTimeout(() => {
+              if (!isShuffling) statusLabel.textContent = 'Siap';
+            }, 1500);
+          }, (newWraps.length * 75) + 200);
 
-        }, 700);
+        }, 1550);
       }
 
       function openModal() {
@@ -651,6 +834,7 @@
           }
 
           cards = parsed.map((item, idx) => ({
+            id: item.id || `custom-${idx + 1}`,
             title: item.title || `Kartu ${idx + 1}`,
             content: item.content || '',
             color: item.color || ['#e11d48', '#2563eb', '#059669', '#d97706'][idx % 4]
@@ -695,6 +879,9 @@
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalBackdrop.classList.contains('is-active')) {
           closeModal();
+        } else if (e.key.toLowerCase() === 's' && !modalBackdrop.classList.contains('is-active') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+          e.preventDefault();
+          shuffle();
         }
       });
 
