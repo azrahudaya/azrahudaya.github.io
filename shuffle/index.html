@@ -1021,8 +1021,9 @@
 
             // TAHAP 2: Kartu meluncur turun ke bawah layar (dip down)
             playCardSound('cut');
+            const curY = parseFloat(cardWrap.dataset.slotY || 0);
             gsap.to(cardWrap, {
-              y: 350,
+              y: curY + 350,
               opacity: 0,
               scale: 0.9,
               rotateX: -15,
@@ -1084,8 +1085,11 @@
 
             // Kembalikan kartu di meja ke posisinya semula
             if (activeCardWrap) {
+              const targetX = parseFloat(activeCardWrap.dataset.slotX || 0);
+              const targetY = parseFloat(activeCardWrap.dataset.slotY || 0);
               gsap.to(activeCardWrap, {
-                y: 0,
+                x: targetX,
+                y: targetY,
                 opacity: 1,
                 scale: 1,
                 rotateX: 0,
@@ -1210,18 +1214,55 @@
         return result;
       }
 
-      // ANIMASI SHUFFLE SEAMLESS TANPA TERPUTUS (Zero DOM Re-creation)
+      // Mengambil posisi slot asli setiap kartu di grid
+      function getSlotHomes() {
+        const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+        return wraps.map(wrap => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = gsap.getProperty(wrap, "x") || 0;
+          const curY = gsap.getProperty(wrap, "y") || 0;
+          return {
+            left: rect.left - curX,
+            top: rect.top - curY,
+            width: rect.width,
+            height: rect.height
+          };
+        });
+      }
+
+      // Pengacakan slot fisik kartu tanpa mengubah warna bawaan kartu
+      function generateDerangement(n) {
+        let arr = Array.from({ length: n }, (_, i) => i);
+        let changed = false;
+        let attempts = 0;
+
+        while (attempts < 25 && !changed) {
+          attempts++;
+          for (let i = n - 1; i > 0; i--) {
+            const rand = new Uint32Array(1);
+            window.crypto.getRandomValues(rand);
+            const j = rand[0] % (i + 1);
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          let same = 0;
+          for (let k = 0; k < n; k++) {
+            if (arr[k] === k) same++;
+          }
+          if (same < n - 1) {
+            changed = true;
+          }
+        }
+        return arr;
+      }
+
+      // ANIMASI SHUFFLE FISIK: Kartu berpindah posisi tanpa mengubah warna
       function shuffle() {
         if (isShuffling || activeCardWrap) return;
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length <= 1) return;
 
         isShuffling = true;
-        btnShuffle.disabled = true;
-        btnFlipToggle.disabled = true;
-        statusDot.classList.add('active');
-        statusLabel.textContent = 'Mengocok...';
-
+        const homes = getSlotHomes();
         const rowRect = cardRow.getBoundingClientRect();
         const midX = rowRect.width / 2;
         const midY = rowRect.height / 2;
@@ -1229,13 +1270,8 @@
         const tl = gsap.timeline({
           onComplete: () => {
             isShuffling = false;
-            btnShuffle.disabled = false;
-            btnFlipToggle.disabled = false;
             statusDot.classList.remove('active');
-            statusLabel.textContent = 'Terkocok!';
-            setTimeout(() => {
-              if (!isShuffling) statusLabel.textContent = 'Siap';
-            }, 1400);
+            statusLabel.textContent = 'Siap';
           }
         });
 
@@ -1255,11 +1291,11 @@
 
         // 2. Kumpul ke Tengah Jadi Tumpukan Tebal
         wraps.forEach((wrap, i) => {
-          const rect = wrap.getBoundingClientRect();
-          const curX = rect.left - rowRect.left + rect.width / 2;
-          const curY = rect.top - rowRect.top + rect.height / 2;
-          const dx = midX - curX;
-          const dy = midY - curY - (i * 3);
+          const curHome = homes[i];
+          const homeCenterX = curHome.left - rowRect.left + curHome.width / 2;
+          const homeCenterY = curHome.top - rowRect.top + curHome.height / 2;
+          const dx = midX - homeCenterX;
+          const dy = midY - homeCenterY - (i * 3);
 
           tl.to(wrap, {
             x: dx,
@@ -1353,11 +1389,11 @@
 
         // 8. Square Up ke Titik Tengah
         wraps.forEach((wrap, i) => {
-          const rect = wrap.getBoundingClientRect();
-          const curX = rect.left - rowRect.left + rect.width / 2;
-          const curY = rect.top - rowRect.top + rect.height / 2;
-          const dx = midX - curX;
-          const dy = midY - curY;
+          const curHome = homes[i];
+          const homeCenterX = curHome.left - rowRect.left + curHome.width / 2;
+          const homeCenterY = curHome.top - rowRect.top + curHome.height / 2;
+          const dx = midX - homeCenterX;
+          const dy = midY - homeCenterY;
 
           tl.to(wrap, {
             x: dx,
@@ -1371,17 +1407,20 @@
         });
         tl.call(() => playCardSound('tap'), null, 2.85);
 
-        // 9. Update Data Diam-diam di Balik Layar Saat Masih Bertumpuk di Tengah
-        tl.call(() => {
-          cards = trulyRandomShuffle(cards);
-          updateCardsDOM();
-        }, null, 2.92);
+        // 9. Acak Slot Tujuan & Deal Out (Warna kartu tetap utuh, kartu berpindah tempat)
+        const slotPerm = generateDerangement(wraps.length);
 
-        // 10. Seamless Deal Out Meluncur ke Meja Tanpa Putus (Smooth Stagger to x:0, y:0)
-        wraps.forEach((wrap, idx) => {
+        wraps.forEach((wrap, i) => {
+          const targetSlot = slotPerm[i];
+          const targetX = homes[targetSlot].left - homes[i].left;
+          const targetY = homes[targetSlot].top - homes[i].top;
+
+          wrap.dataset.slotX = targetX.toString();
+          wrap.dataset.slotY = targetY.toString();
+
           tl.to(wrap, {
-            x: 0,
-            y: 0,
+            x: targetX,
+            y: targetY,
             scale: 1,
             rotateX: 0,
             rotateY: 0,
@@ -1389,7 +1428,7 @@
             duration: 0.55,
             ease: "back.out(1.2)",
             onStart: () => playCardSound('cut')
-          }, 2.98 + (idx * 0.08));
+          }, 2.95 + (i * 0.08));
         });
       }
 
@@ -1399,17 +1438,18 @@
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length <= 1) return;
 
+        const homes = getSlotHomes();
         const rowRect = cardRow.getBoundingClientRect();
         const midX = rowRect.width / 2;
         const midY = rowRect.height / 2;
 
-        // Posisikan semua kartu sejak awal di tengah sebagai tumpukan rapi melayang (belum kelihatan)
+        // Posisikan semua kartu sejak awal di tengah sebagai tumpukan rapi melayang
         wraps.forEach((wrap, i) => {
-          const rect = wrap.getBoundingClientRect();
-          const curX = rect.left - rowRect.left + rect.width / 2;
-          const curY = rect.top - rowRect.top + rect.height / 2;
-          const dx = midX - curX;
-          const dy = midY - curY - (i * 3);
+          const curHome = homes[i];
+          const homeCenterX = curHome.left - rowRect.left + curHome.width / 2;
+          const homeCenterY = curHome.top - rowRect.top + curHome.height / 2;
+          const dx = midX - homeCenterX;
+          const dy = midY - homeCenterY - (i * 3);
 
           gsap.set(wrap, {
             x: dx,
@@ -1491,11 +1531,11 @@
 
         // 5. Square Up ke Titik Tengah Meja (1.75s - 2.05s)
         wraps.forEach((wrap, i) => {
-          const rect = wrap.getBoundingClientRect();
-          const curX = rect.left - rowRect.left + rect.width / 2;
-          const curY = rect.top - rowRect.top + rect.height / 2;
-          const dx = midX - curX;
-          const dy = midY - curY;
+          const curHome = homes[i];
+          const homeCenterX = curHome.left - rowRect.left + curHome.width / 2;
+          const homeCenterY = curHome.top - rowRect.top + curHome.height / 2;
+          const dx = midX - homeCenterX;
+          const dy = midY - homeCenterY;
 
           tl.to(wrap, {
             x: dx,
@@ -1509,17 +1549,20 @@
         });
         tl.call(() => playCardSound('tap'), null, 2.05);
 
-        // 6. Update Data Teracak Diam-diam Saat Masih Bertumpuk (2.1s)
-        tl.call(() => {
-          cards = trulyRandomShuffle(cards);
-          updateCardsDOM();
-        }, null, 2.1);
+        // 6. Deal Out: Setiap kartu meluncur ke slot acak baru tanpa mengubah warna
+        const slotPerm = generateDerangement(wraps.length);
 
-        // 7. Deal Out Meluncur Mulus ke 5 Posisi Meja Masing-masing (2.15s - 2.7s)
-        wraps.forEach((wrap, idx) => {
+        wraps.forEach((wrap, i) => {
+          const targetSlot = slotPerm[i];
+          const targetX = homes[targetSlot].left - homes[i].left;
+          const targetY = homes[targetSlot].top - homes[i].top;
+
+          wrap.dataset.slotX = targetX.toString();
+          wrap.dataset.slotY = targetY.toString();
+
           tl.to(wrap, {
-            x: 0,
-            y: 0,
+            x: targetX,
+            y: targetY,
             scale: 1,
             rotateX: 0,
             rotateY: 0,
@@ -1527,7 +1570,7 @@
             duration: 0.55,
             ease: "back.out(1.2)",
             onStart: () => playCardSound('cut')
-          }, 2.18 + (idx * 0.08));
+          }, 2.15 + (i * 0.08));
         });
       }
 
