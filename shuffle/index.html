@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Shuffle | ajra.tech</title>
-  <meta name="description" content="Kartu remi Uno bertekstur tebal dengan animasi mengocok multi-tahap GSAP, modal fokus 3D, dan pengiriman email tes.">
+  <meta name="description" content="Kartu remi Uno bertekstur dengan animasi flip di tempat, turun ke bawah, dan muncul close-up dari bawah layar beserta kirim email.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
@@ -150,7 +150,7 @@
       padding: 24px 10px;
     }
 
-    /* Ukuran Kartu Remi / Uno Besar & Hero: 310px x 465px */
+    /* Ukuran Kartu Remi / Uno Besar: 310px x 465px */
     .card-wrap {
       width: 310px;
       height: 465px;
@@ -159,7 +159,7 @@
       flex-shrink: 0;
       transform-style: preserve-3d;
       perspective: 1800px;
-      will-change: transform;
+      will-change: transform, opacity;
     }
 
     .card-inner {
@@ -311,18 +311,18 @@
       border-radius: 4px;
     }
 
-    /* HERO CARD FOCUS MODAL (Blur & Dark Overlay, Card Rises from Bottom) */
+    /* CLOSE-UP HERO CARD MODAL (Dark + Blur Overlay, Card Pops Up Close to Camera) */
     .hero-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       z-index: 150;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -333,29 +333,30 @@
       pointer-events: auto;
     }
 
+    /* Close-up Hero Card: Jarak dekat, besar, bertekstur, dan berbayang nyata */
     .hero-card-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       background: #ffffff;
-      border-radius: 28px;
+      border-radius: 30px;
       box-shadow:
-        0 30px 70px -10px rgba(0, 0, 0, 0.35),
-        0 12px 24px -4px rgba(0, 0, 0, 0.15);
+        0 35px 80px -10px rgba(0, 0, 0, 0.45),
+        0 16px 30px -4px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
       position: relative;
-      transform: translateY(100px) scale(0.92);
+      transform: translateY(120vh) scale(0.85);
       will-change: transform, opacity;
     }
 
     .hero-card-top-bar {
-      height: 14px;
+      height: 16px;
       background-color: var(--hero-color, #2563eb);
       width: 100%;
     }
 
     .hero-card-content {
-      padding: 32px 32px 28px;
+      padding: 36px 36px 32px;
       display: flex;
       flex-direction: column;
     }
@@ -364,37 +365,38 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .hero-badge-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .hero-dot {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background-color: var(--hero-color, #2563eb);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     .hero-index {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 700;
       color: #94a3b8;
     }
 
     .hero-close-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: #f1f5f9;
       border: none;
       color: #64748b;
-      font-size: 20px;
+      font-size: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -408,54 +410,54 @@
     }
 
     .hero-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       color: #0f172a;
       line-height: 1.3;
-      margin-bottom: 14px;
-      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
     }
 
     .hero-body {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
       color: #475569;
-      line-height: 1.65;
-      margin-bottom: 28px;
+      line-height: 1.7;
+      margin-bottom: 32px;
     }
 
     /* Email Submission Section */
     .hero-email-box {
       border-top: 1px solid #f1f5f9;
-      padding-top: 24px;
+      padding-top: 26px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .hero-email-label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: #1e293b;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .hero-input-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: stretch;
     }
 
     .hero-input {
       flex: 1;
-      height: 44px;
+      height: 48px;
       border: 1.5px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 0 16px;
+      border-radius: 14px;
+      padding: 0 18px;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 15px;
       color: #0f172a;
       outline: none;
       transition: all 0.2s ease;
@@ -465,13 +467,13 @@
     .hero-input:focus {
       border-color: #2563eb;
       background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
     }
 
     .hero-send-btn {
-      height: 44px;
-      padding: 0 20px;
-      border-radius: 12px;
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 14px;
       background: #0f172a;
       color: #ffffff;
       font-weight: 600;
@@ -480,7 +482,7 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
@@ -488,6 +490,7 @@
     .hero-send-btn:hover:not(:disabled) {
       background: #1e293b;
       transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
     }
 
     .hero-send-btn:disabled {
@@ -497,9 +500,9 @@
 
     .hero-msg {
       font-size: 13px;
-      line-height: 1.4;
-      padding: 10px 14px;
-      border-radius: 10px;
+      line-height: 1.45;
+      padding: 12px 16px;
+      border-radius: 12px;
       display: none;
     }
 
@@ -642,10 +645,10 @@
         font-size: 14px;
       }
       .hero-card-container {
-        max-width: 92%;
+        max-width: 95%;
       }
       .hero-card-content {
-        padding: 24px 20px;
+        padding: 28px 22px;
       }
       .hero-input-row {
         flex-direction: column;
@@ -680,7 +683,7 @@
     </div>
   </main>
 
-  <!-- HERO CARD FOCUS MODAL -->
+  <!-- CLOSE-UP HERO CARD FOCUS MODAL -->
   <div class="hero-modal-backdrop" id="heroModalBackdrop">
     <div class="hero-card-container" id="heroCardContainer">
       <div class="hero-card-top-bar" id="heroCardTopBar"></div>
@@ -700,7 +703,7 @@
         <div class="hero-email-box">
           <label class="hero-email-label" for="heroEmailInput">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <span>Kirim ringkasan kartu ke email kamu:</span>
+            <span>Tuliskan email kamu:</span>
           </label>
           <div class="hero-input-row">
             <input class="hero-input" id="heroEmailInput" type="email" placeholder="nama@email.com" autocomplete="email" required>
@@ -767,9 +770,10 @@
         }
       ];
 
-      const STORAGE_KEY = 'ajra_cards_data_v5';
+      const STORAGE_KEY = 'ajra_cards_data_v6';
       let cards = [];
       let isShuffling = false;
+      let activeCardWrap = null;
       let activeCardData = null;
 
       const cardRow = document.getElementById('cardRow');
@@ -835,6 +839,18 @@
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
             osc.start(now);
             osc.stop(now + 0.1);
+          } else if (type === 'whoosh') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(140, now);
+            osc.frequency.exponentialRampToValueAtTime(450, now + 0.18);
+            gain.gain.setValueAtTime(0.09, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
           } else if (type === 'tap') {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -916,19 +932,17 @@
             </div>
           `;
 
-          // Buka modal fokus hero kartu saat diklik
+          // Alur Klik: Flip di tempat -> Meluncur turun ke bawah -> Muncul close-up dari bawah layar
           cardWrap.addEventListener('click', () => {
             if (isShuffling) return;
-            const currentIdx = parseInt(cardWrap.dataset.index, 10);
-            openHeroCardModal(cards[currentIdx], currentIdx);
+            handleCardClickFlow(cardWrap);
           });
 
           cardWrap.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               if (isShuffling) return;
-              const currentIdx = parseInt(cardWrap.dataset.index, 10);
-              openHeroCardModal(cards[currentIdx], currentIdx);
+              handleCardClickFlow(cardWrap);
             }
           });
 
@@ -992,13 +1006,51 @@
         syncToggleButtonText();
       }
 
-      // BUKA HERO CARD MODAL (Layar Gelap + Blur, Kartu Naik dari Bawah ke Tengah)
-      function openHeroCardModal(cardData, index) {
+      // KOREOGRAFI UTAMA:
+      // 1. Flip di tempat
+      // 2. Turun ke bawah meja
+      // 3. Muncul close-up dari bawah layar dengan latar belakang gelap & blur
+      function handleCardClickFlow(cardWrap) {
+        if (activeCardWrap) return; // Sedang ada kartu aktif
+
+        const currentIdx = parseInt(cardWrap.dataset.index, 10);
+        const cardData = cards[currentIdx];
         if (!cardData) return;
-        activeCardData = { ...cardData, index };
 
+        activeCardWrap = cardWrap;
+        activeCardData = { ...cardData, index: currentIdx };
+        const cardInner = cardWrap.querySelector('.card-inner');
+
+        // TAHAP 1: Flip 3D 180 derajat di tempat
         playCardSound('flip');
+        gsap.to(cardInner, {
+          rotateY: 180,
+          duration: 0.45,
+          ease: "back.out(1.2)",
+          onComplete: () => {
+            cardWrap.dataset.flipped = 'true';
+            syncToggleButtonText();
 
+            // TAHAP 2: Kartu meluncur turun ke bawah layar (dip down)
+            playCardSound('cut');
+            gsap.to(cardWrap, {
+              y: 350,
+              opacity: 0,
+              scale: 0.9,
+              rotateX: -15,
+              duration: 0.38,
+              ease: "power2.in",
+              onComplete: () => {
+                // TAHAP 3: Muncul Close-up dari Bawah ke Tengah Layar
+                openHeroCloseUp(cardData, currentIdx);
+              }
+            });
+          }
+        });
+      }
+
+      // BUKA HERO CLOSE-UP DARI BAWAH LAYAR
+      function openHeroCloseUp(cardData, index) {
         heroCardTopBar.style.backgroundColor = cardData.color || '#2563eb';
         heroDot.style.backgroundColor = cardData.color || '#2563eb';
         heroIndex.textContent = String(index + 1).padStart(2, '0');
@@ -1011,22 +1063,24 @@
         btnHeroSend.disabled = false;
         btnHeroSend.textContent = 'Kirim';
 
+        // Latar gelap & blur muncul
         heroModalBackdrop.classList.add('is-active');
+        playCardSound('whoosh');
 
-        // Animasi GSAP kartu naik dari bawah ke tengah
+        // Kartu melesat naik dari bawah layar (jarak dekat & besar)
         gsap.fromTo(heroCardContainer,
           {
-            y: 90,
-            scale: 0.92,
+            y: window.innerHeight * 0.75,
+            scale: 0.85,
             opacity: 0,
-            rotateX: 10
+            rotateX: 18
           },
           {
             y: 0,
             scale: 1,
             opacity: 1,
             rotateX: 0,
-            duration: 0.45,
+            duration: 0.55,
             ease: "power3.out",
             onComplete: () => {
               heroEmailInput.focus();
@@ -1035,16 +1089,35 @@
         );
       }
 
-      function closeHeroCardModal() {
+      // TUTUP HERO CLOSE-UP & KEMBALIKAN KARTU KE MEJA
+      function closeHeroCloseUp() {
+        playCardSound('cut');
         gsap.to(heroCardContainer, {
-          y: 60,
-          scale: 0.94,
+          y: window.innerHeight * 0.75,
+          scale: 0.85,
           opacity: 0,
-          duration: 0.25,
+          rotateX: 15,
+          duration: 0.35,
           ease: "power2.in",
           onComplete: () => {
             heroModalBackdrop.classList.remove('is-active');
-            activeCardData = null;
+
+            // Kembalikan kartu di meja ke posisinya semula
+            if (activeCardWrap) {
+              gsap.to(activeCardWrap, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.45,
+                ease: "back.out(1.15)",
+                onComplete: () => {
+                  activeCardWrap = null;
+                  activeCardData = null;
+                }
+              });
+            }
           }
         });
       }
@@ -1101,7 +1174,7 @@
       }
 
       function toggleAllCards() {
-        if (isShuffling) return;
+        if (isShuffling || activeCardWrap) return;
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length === 0) return;
 
@@ -1159,7 +1232,7 @@
 
       // ANIMASI SHUFFLE SEAMLESS TANPA TERPUTUS (Zero DOM Re-creation)
       function shuffle() {
-        if (isShuffling) return;
+        if (isShuffling || activeCardWrap) return;
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length <= 1) return;
 
@@ -1388,7 +1461,7 @@
       btnResetDefault.addEventListener('click', resetDefault);
       btnSaveJson.addEventListener('click', saveJson);
 
-      btnHeroClose.addEventListener('click', closeHeroCardModal);
+      btnHeroClose.addEventListener('click', closeHeroCloseUp);
       btnHeroSend.addEventListener('click', handleSendEmail);
       heroEmailInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -1398,7 +1471,7 @@
       });
 
       heroModalBackdrop.addEventListener('click', (e) => {
-        if (e.target === heroModalBackdrop) closeHeroCardModal();
+        if (e.target === heroModalBackdrop) closeHeroCloseUp();
       });
 
       modalBackdrop.addEventListener('click', (e) => {
@@ -1408,7 +1481,7 @@
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           if (heroModalBackdrop.classList.contains('is-active')) {
-            closeHeroCardModal();
+            closeHeroCloseUp();
           } else if (modalBackdrop.classList.contains('is-active')) {
             closeModal();
           }
