@@ -3,30 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shuffle Cards | ajra.tech</title>
-  <meta name="description" content="Koleksi kartu interaktif warna-warni dengan animasi shuffle dan kustomisasi konten JSON.">
+  <title>Card Shuffle | ajra.tech</title>
+  <meta name="description" content="Kartu remi warna-warni interaktif dengan animasi shuffle dan kustomisasi JSON.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0b0f19;
-      --bg-surface: #121826;
-      --bg-card: #182234;
-      --border: #232f45;
-      --border-focus: #3b82f6;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -34,1157 +16,658 @@
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
+      background-color: #ffffff;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Ambient background styling */
-    .bg-glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.6;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(244, 63, 94, 0.1) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-    }
-
-    header {
-      position: relative;
-      z-index: 10;
-      padding: 24px 32px;
-      display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(11, 15, 25, 0.85);
-      backdrop-filter: blur(12px);
+      justify-content: center;
+      overflow-x: hidden;
+      padding: 32px 20px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .brand {
+    /* Top minimalist floating controls */
+    .controls {
+      position: fixed;
+      top: 24px;
       display: flex;
       align-items: center;
       gap: 12px;
+      z-index: 50;
+      background: #ffffff;
+      padding: 6px 8px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f1f5f9;
     }
 
-    .brand-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #ec4899, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    button {
+    .btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: #334155;
       font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 9999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid transparent;
-      user-select: none;
-      min-height: 44px;
+      gap: 6px;
+      transition: all 0.15s ease;
+      min-height: 36px;
     }
 
-    button:focus-visible {
-      outline: 2px solid var(--border-focus);
+    .btn:hover:not(:disabled) {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid #2563eb;
       outline-offset: 2px;
     }
 
     .btn-primary {
-      background: #3b82f6;
+      background: #0f172a;
       color: #ffffff;
-      border-color: #2563eb;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #2563eb;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
-    }
-
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .btn-secondary {
-      background: var(--bg-surface);
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background: var(--bg-card);
-      border-color: #334155;
+      background: #1e293b;
       color: #ffffff;
     }
 
-    button:disabled {
-      opacity: 0.55;
+    .btn:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
-      transform: none !important;
     }
 
-    /* Main Board */
-    main {
-      position: relative;
-      z-index: 5;
-      flex: 1;
-      padding: 32px;
+    /* Main Deck Stage */
+    .stage {
+      width: 100%;
+      max-width: 1300px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
+      perspective: 1600px;
+      margin-top: 40px;
     }
 
-    .board-info {
+    .card-row {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 28px;
       width: 100%;
-      margin-bottom: 24px;
-      padding: 0 8px;
-    }
-
-    .status-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: var(--radius-full);
-      background: #10b981;
-    }
-
-    .status-dot.shuffling {
-      background: #f59e0b;
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-
-    .card-counter {
-      font-size: 13px;
-      color: var(--text-dim);
-      font-family: var(--font-mono);
-    }
-
-    /* Card Deck Arena */
-    .deck-arena {
       position: relative;
-      width: 100%;
-      min-height: 480px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
+      min-height: 400px;
+    }
+
+    /* Standard Playing Card / Uno Card Proportions: 220px x 330px (~1:1.5 ratio) */
+    .card-wrap {
+      width: 220px;
+      height: 330px;
       perspective: 1200px;
-      align-items: stretch;
-      padding: 8px;
-    }
-
-    /* Card Container */
-    .card-item {
       position: relative;
-      height: 360px;
       cursor: pointer;
-      border-radius: var(--radius-lg);
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-wrap:hover:not(.is-shuffling) {
+      transform: translateY(-10px);
+    }
+
+    .card-wrap.is-shuffling {
+      pointer-events: none;
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1), box-shadow 0.25s ease;
-      user-select: none;
-      outline: none;
+      transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
     }
 
-    .card-item:focus-visible {
-      outline: 2px solid var(--border-focus);
-      outline-offset: 4px;
+    .card-wrap:focus-visible .card-inner {
+      box-shadow: 0 0 0 3px #2563eb, 0 12px 30px rgba(0, 0, 0, 0.15);
     }
 
-    .card-item.is-flipped {
+    .card-wrap.is-flipped .card-inner {
       transform: rotateY(180deg);
     }
 
-    .card-item:hover:not(.is-shuffling) {
-      transform: translateY(-6px) scale(1.02);
-    }
-
-    .card-item.is-flipped:hover:not(.is-shuffling) {
-      transform: rotateY(180deg) translateY(-6px) scale(1.02);
-    }
-
-    /* Shuffle animation states */
-    .card-item.is-shuffling {
-      pointer-events: none;
-      transition: all 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    /* Faces */
+    /* Card Faces */
     .card-face {
       position: absolute;
       inset: 0;
-      border-radius: var(--radius-lg);
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border);
       overflow: hidden;
     }
 
-    /* BACK FACE (Front at start, closed card) */
+    /* SISI DEPAN / TERTUTUP (Polos warna-warni ala Uno dengan inner border putih halus) */
     .card-face-back {
-      background-color: var(--card-bg, #1e293b);
-      background-image: var(--card-gradient);
-      color: #ffffff;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background-color: var(--card-color, #e11d48);
       position: relative;
-    }
-
-    .card-face-back::before {
-      content: '';
-      position: absolute;
-      inset: 8px;
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      border-radius: calc(var(--radius-lg) - 6px);
-      pointer-events: none;
-    }
-
-    .back-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 2;
-    }
-
-    .back-num {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .back-center {
-      text-align: center;
-      margin: auto 0;
-      z-index: 2;
-    }
-
-    .back-emblem {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 14px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .back-title {
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      opacity: 0.95;
+    /* Garis border dalam khas kartu Uno / kartu remi */
+    .card-face-back::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 3px solid rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      pointer-events: none;
     }
 
-    .back-footer {
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.8;
-      z-index: 2;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 6px 12px;
-      border-radius: var(--radius-md);
-      font-weight: 500;
-    }
-
-    /* FRONT FACE (Revealed Content) */
+    /* SISI BELAKANG / TERBUKA (Isi konten dari JSON) */
     .card-face-front {
-      background: var(--bg-card);
+      background-color: #ffffff;
       transform: rotateY(180deg);
-      padding: 24px;
+      border: 2px solid #f1f5f9;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-top: 5px solid var(--card-color, #3b82f6);
+      padding: 24px 20px;
+      text-align: left;
     }
 
-    .front-top {
+    .card-front-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
     }
 
-    .card-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      background: var(--card-tag-bg, rgba(59, 130, 246, 0.15));
-      color: var(--card-color, #3b82f6);
-      border: 1px solid var(--card-tag-border, rgba(59, 130, 246, 0.3));
+    .card-color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--card-color, #e11d48);
     }
 
-    .card-front-num {
-      font-family: var(--font-mono);
+    .card-index {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      color: var(--text-dim);
+      font-weight: 600;
+      color: #94a3b8;
     }
 
-    .front-body {
+    .card-front-body {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: 12px 0;
     }
 
     .card-title {
       font-size: 18px;
       font-weight: 700;
-      color: #ffffff;
+      color: #0f172a;
       line-height: 1.35;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      word-break: break-word;
     }
 
     .card-content {
       font-size: 14px;
+      font-weight: 500;
       line-height: 1.6;
-      color: var(--text-muted);
-      overflow-y: auto;
+      color: #475569;
+      word-break: break-word;
       max-height: 160px;
-      padding-right: 4px;
+      overflow-y: auto;
     }
 
-    .card-content::-webkit-scrollbar {
-      width: 4px;
-    }
-    .card-content::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 4px;
-    }
-
-    .front-footer {
+    .card-front-footer {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 12px;
-      color: var(--text-dim);
     }
 
-    .front-footer span:last-child {
-      color: var(--card-color, #3b82f6);
-      font-weight: 600;
-    }
-
-    /* JSON Drawer Modal */
-    .drawer-overlay {
+    /* Simple JSON Modal */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(15, 23, 42, 0.4);
       backdrop-filter: blur(4px);
       z-index: 100;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .drawer-overlay.is-open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 520px;
-      max-width: 100%;
-      background: var(--bg-surface);
-      border-left: 1px solid var(--border);
-      z-index: 101;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .drawer.is-open {
-      transform: translateX(0);
-    }
-
-    .drawer-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .drawer-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .drawer-subtitle {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .btn-close {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-sm);
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      padding: 0;
-      font-size: 20px;
-    }
-
-    .btn-close:hover {
-      background: var(--bg-card);
-      color: #fff;
-    }
-
-    .drawer-body {
-      flex: 1;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow-y: auto;
-    }
-
-    .editor-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .editor-textarea {
-      flex: 1;
-      min-height: 280px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      color: #e2e8f0;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      line-height: 1.5;
-      padding: 16px;
-      resize: none;
-      outline: none;
-      white-space: pre;
-    }
-
-    .editor-textarea:focus {
-      border-color: var(--border-focus);
-    }
-
-    .editor-error {
       display: none;
-      padding: 12px;
-      border-radius: var(--radius-sm);
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
-      font-size: 13px;
-      line-height: 1.4;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .drawer-footer {
-      padding: 20px 24px;
-      border-top: 1px solid var(--border);
+    .modal-backdrop.is-active {
       display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-      background: var(--bg-surface);
     }
 
-    /* Empty state */
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 24px;
-      background: var(--bg-surface);
-      border-radius: var(--radius-lg);
-      border: 1px dashed var(--border);
+    .modal-window {
+      background: #ffffff;
+      width: 100%;
+      max-width: 580px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    .empty-state h3 {
-      font-size: 18px;
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 8px;
+      color: #0f172a;
     }
 
-    .empty-state p {
-      color: var(--text-muted);
-      font-size: 14px;
-      max-width: 420px;
-      margin: 0 auto 20px;
+    .modal-body {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    /* Color Palette Definitions */
-    .theme-emerald {
-      --card-bg: #064e3b;
-      --card-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
-      --card-color: #10b981;
-      --card-tag-bg: rgba(16, 185, 129, 0.15);
-      --card-tag-border: rgba(16, 185, 129, 0.35);
-    }
-
-    .theme-amber {
-      --card-bg: #78350f;
-      --card-gradient: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-      --card-color: #f59e0b;
-      --card-tag-bg: rgba(245, 158, 11, 0.15);
-      --card-tag-border: rgba(245, 158, 11, 0.35);
-    }
-
-    .theme-rose {
-      --card-bg: #881337;
-      --card-gradient: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      --card-color: #f43f5e;
-      --card-tag-bg: rgba(244, 63, 94, 0.15);
-      --card-tag-border: rgba(244, 63, 94, 0.35);
-    }
-
-    .theme-indigo {
-      --card-bg: #312e81;
-      --card-gradient: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-      --card-color: #6366f1;
-      --card-tag-bg: rgba(99, 102, 241, 0.15);
-      --card-tag-border: rgba(99, 102, 241, 0.35);
-    }
-
-    .theme-teal {
-      --card-bg: #134e4a;
-      --card-gradient: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-      --card-color: #14b8a6;
-      --card-tag-bg: rgba(20, 184, 166, 0.15);
-      --card-tag-border: rgba(20, 184, 166, 0.35);
-    }
-
-    .theme-violet {
-      --card-bg: #4c1d95;
-      --card-gradient: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-      --card-color: #8b5cf6;
-      --card-tag-bg: rgba(139, 92, 246, 0.15);
-      --card-tag-border: rgba(139, 92, 246, 0.35);
-    }
-
-    .theme-coral {
-      --card-bg: #7c2d12;
-      --card-gradient: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-      --card-color: #f97316;
-      --card-tag-bg: rgba(249, 115, 22, 0.15);
-      --card-tag-border: rgba(249, 115, 22, 0.35);
-    }
-
-    .theme-sky {
-      --card-bg: #0c4a6e;
-      --card-gradient: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      --card-color: #38bdf8;
-      --card-tag-bg: rgba(56, 189, 248, 0.15);
-      --card-tag-border: rgba(56, 189, 248, 0.35);
-    }
-
-    /* Footer */
-    footer {
-      padding: 20px 32px;
-      border-top: 1px solid var(--border);
-      text-align: center;
+    .modal-desc {
       font-size: 13px;
-      color: var(--text-dim);
-      background: var(--bg);
-      position: relative;
-      z-index: 10;
+      color: #64748b;
+      line-height: 1.5;
     }
 
-    @media (max-width: 768px) {
-      header {
-        padding: 16px 20px;
+    .json-textarea {
+      width: 100%;
+      height: 240px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #0f172a;
+      background: #f8fafc;
+      resize: vertical;
+      outline: none;
+    }
+
+    .json-textarea:focus {
+      border-color: #2563eb;
+      background: #ffffff;
+    }
+
+    .error-box {
+      display: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      font-size: 12px;
+    }
+
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid #f1f5f9;
+      background: #fafafa;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .controls {
+        top: 12px;
       }
-      main {
-        padding: 20px 16px;
+      .card-wrap {
+        width: 180px;
+        height: 270px;
       }
-      .deck-arena {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .card-title {
+        font-size: 16px;
       }
-      .card-item {
-        height: 320px;
-      }
-      .drawer {
-        width: 100%;
+      .card-content {
+        font-size: 13px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="bg-glow"></div>
 
-  <header>
-    <div class="brand">
-      <div class="brand-badge" aria-hidden="true">S</div>
-      <div>
-        <h1 class="brand-title">Shuffle Deck</h1>
-        <p class="brand-sub">Kartu interaktif ajra.tech dengan custom JSON</p>
-      </div>
-    </div>
-    <div class="toolbar">
-      <button id="btnShuffle" class="btn-primary" type="button" aria-label="Acak posisi semua kartu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
-        <span>Kocok Kartu</span>
-      </button>
-      <button id="btnFlipAll" class="btn-secondary" type="button" aria-label="Buka atau tutup seluruh kartu">
-        <span id="flipAllText">Buka Semua</span>
-      </button>
-      <button id="btnOpenEditor" class="btn-secondary" type="button" aria-label="Buka editor konten JSON">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        <span>Edit JSON</span>
-      </button>
-    </div>
-  </header>
+  <!-- Floating Controls -->
+  <div class="controls">
+    <button class="btn btn-primary" id="btnShuffle" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
+      <span>Shuffle</span>
+    </button>
+    <button class="btn" id="btnFlipToggle" type="button">Buka Semua</button>
+    <button class="btn" id="btnOpenJson" type="button">Edit JSON</button>
+  </div>
 
-  <main>
-    <div class="board-info">
-      <div class="status-text">
-        <span class="status-dot" id="statusDot"></span>
-        <span id="statusMessage">Klik kartu satu per satu untuk membuka isinya.</span>
-      </div>
-      <div class="card-counter" id="cardCounter">6 Kartu Aktif</div>
-    </div>
-
-    <div class="deck-arena" id="deckArena" role="region" aria-label="Papan Kartu">
-      <!-- Cards dynamically rendered here -->
+  <!-- Stage -->
+  <main class="stage">
+    <div class="card-row" id="cardRow">
+      <!-- Cards rendered here -->
     </div>
   </main>
 
-  <footer>
-    <span>Shuffle Deck ajra.tech &bull; Akses cepat: Tekan <strong>S</strong> untuk kocok, <strong>E</strong> untuk buka editor JSON</span>
-  </footer>
-
-  <!-- JSON Editor Drawer Modal -->
-  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
-  <aside class="drawer" id="drawer" role="dialog" aria-labelledby="drawerTitle" aria-modal="true" aria-hidden="true">
-    <div class="drawer-header">
-      <div>
-        <h2 class="drawer-title" id="drawerTitle">Kustomisasi Konten Kartu</h2>
-        <p class="drawer-subtitle">Masukkan data kartu dalam format JSON</p>
+  <!-- JSON Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Konten Kartu (JSON)</h2>
+        <button class="btn" id="btnCloseModal" type="button" style="padding: 4px 8px; font-size: 18px;">&times;</button>
       </div>
-      <button class="btn-close" id="btnCloseDrawer" type="button" aria-label="Tutup editor">&times;</button>
-    </div>
-    <div class="drawer-body">
-      <div class="editor-label">
-        <span>Format JSON Kartu</span>
-        <button id="btnLoadDefault" class="btn-secondary" type="button" style="padding: 4px 10px; font-size: 12px; min-height: 28px;">Reset Default</button>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Format array JSON. Tiap item memiliki properti: <code>title</code>, <code>content</code>, dan <code>color</code> (kode HEX).
+        </p>
+        <div class="error-box" id="errorBox"></div>
+        <textarea class="json-textarea" id="jsonInput" spellcheck="false"></textarea>
       </div>
-      <div id="editorError" class="editor-error" role="alert"></div>
-      <textarea id="jsonEditor" class="editor-textarea" spellcheck="false" placeholder="[ { 'title': '...', 'content': '...' } ]"></textarea>
-      <p style="font-size: 12px; color: var(--text-dim); line-height: 1.5;">
-        Field yang didukung: <code>title</code>, <code>content</code>, <code>tag</code>, <code>emblem</code> (emoji/simbol), dan <code>theme</code> (emerald, amber, rose, indigo, teal, violet, coral, sky).
-      </p>
+      <div class="modal-footer">
+        <button class="btn" id="btnResetDefault" type="button">Reset Bawaan</button>
+        <button class="btn btn-primary" id="btnSaveJson" type="button">Simpan & Terapkan</button>
+      </div>
     </div>
-    <div class="drawer-footer">
-      <button class="btn-secondary" id="btnCancelDrawer" type="button">Batal</button>
-      <button class="btn-primary" id="btnApplyJson" type="button">Terapkan Perubahan</button>
-    </div>
-  </aside>
+  </div>
 
   <script>
     (function () {
       'use strict';
 
-      // Default card presets
+      // 4 kartu Uno default dengan warna solid yang cerah dan tajam
       const DEFAULT_CARDS = [
         {
-          id: 'card-1',
-          title: 'Strategi Minimalis',
-          content: 'Kurangi kompleksitas sistem sampai hanya menyisakan bagian yang benar-benar bernilai tinggi.',
-          tag: 'Arsitektur',
-          emblem: '⚡',
-          theme: 'emerald'
+          title: "Kartu Merah",
+          content: "Fokus pada hal paling berdampak. Singkirkan yang tidak perlu.",
+          color: "#e11d48"
         },
         {
-          id: 'card-2',
-          title: 'Iterasi Cepat',
-          content: 'Uji hipotesis langsung di lapangan dengan feedback nyata daripada berasumsi di atas meja kerja.',
-          tag: 'Eksekusi',
-          emblem: '🎯',
-          theme: 'amber'
+          title: "Kartu Biru",
+          content: "Ketenangan dan kejernihan berpikir menghasilkan keputusan tepat.",
+          color: "#2563eb"
         },
         {
-          id: 'card-3',
-          title: 'Standar Kualitas',
-          content: 'Detail kecil menentukan rasa percaya pengguna. Jangan kompromi pada fondasi keamanan dan kecepatan.',
-          tag: 'Kualitas',
-          emblem: '💎',
-          theme: 'rose'
+          title: "Kartu Hijau",
+          content: "Pertumbuhan yang konsisten berawal dari langkah kecil setiap hari.",
+          color: "#059669"
         },
         {
-          id: 'card-4',
-          title: 'Fokus Solusi',
-          content: 'Teknologi hanyalah alat pengungkit. Pahami masalah inti manusia sebelum memilih tumpukan kode.',
-          tag: 'Prinsip',
-          emblem: '🧭',
-          theme: 'indigo'
-        },
-        {
-          id: 'card-5',
-          title: 'Otomatisasi Cermat',
-          content: 'Otomatiskan pekerjaan berulang yang menyita waktu, sisakan ruang otak untuk keputusan kreatif.',
-          tag: 'Efisiensi',
-          emblem: '⚙️',
-          theme: 'teal'
-        },
-        {
-          id: 'card-6',
-          title: 'Daya Tahan',
-          content: 'Bangun sistem yang tangguh menghadapi gangguan dan mudah dipulihkan saat kondisi tak terduga.',
-          tag: 'Resiliensi',
-          emblem: '🛡️',
-          theme: 'violet'
+          title: "Kartu Kuning",
+          content: "Eksplorasi ide baru dengan rasa ingin tahu tanpa batas.",
+          color: "#d97706"
         }
       ];
 
-      const STORAGE_KEY = 'ajra_shuffle_cards_v1';
+      const STORAGE_KEY = 'ajra_cards_data_v2';
       let cards = [];
       let isShuffling = false;
 
-      // Elements
-      const deckArena = document.getElementById('deckArena');
+      const cardRow = document.getElementById('cardRow');
       const btnShuffle = document.getElementById('btnShuffle');
-      const btnFlipAll = document.getElementById('btnFlipAll');
-      const flipAllText = document.getElementById('flipAllText');
-      const btnOpenEditor = document.getElementById('btnOpenEditor');
-      const btnCloseDrawer = document.getElementById('btnCloseDrawer');
-      const btnCancelDrawer = document.getElementById('btnCancelDrawer');
-      const btnApplyJson = document.getElementById('btnApplyJson');
-      const btnLoadDefault = document.getElementById('btnLoadDefault');
-      const drawer = document.getElementById('drawer');
-      const drawerOverlay = document.getElementById('drawerOverlay');
-      const jsonEditor = document.getElementById('jsonEditor');
-      const editorError = document.getElementById('editorError');
-      const statusDot = document.getElementById('statusDot');
-      const statusMessage = document.getElementById('statusMessage');
-      const cardCounter = document.getElementById('cardCounter');
+      const btnFlipToggle = document.getElementById('btnFlipToggle');
+      const btnOpenJson = document.getElementById('btnOpenJson');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const btnCloseModal = document.getElementById('btnCloseModal');
+      const btnResetDefault = document.getElementById('btnResetDefault');
+      const btnSaveJson = document.getElementById('btnSaveJson');
+      const jsonInput = document.getElementById('jsonInput');
+      const errorBox = document.getElementById('errorBox');
 
-      // Audio feedback (Web Audio API synth, completely offline & self-contained)
-      let audioCtx = null;
-      function playAudioFeedback(type) {
+      function loadData() {
         try {
-          if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          }
-          if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-          }
-          const now = audioCtx.currentTime;
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-
-          if (type === 'flip') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(420, now);
-            osc.frequency.exponentialRampToValueAtTime(740, now + 0.08);
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
-            osc.start(now);
-            osc.stop(now + 0.09);
-          } else if (type === 'shuffle') {
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(260, now);
-            osc.frequency.exponentialRampToValueAtTime(380, now + 0.06);
-            gain.gain.setValueAtTime(0.06, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
-            osc.start(now);
-            osc.stop(now + 0.07);
-          }
-        } catch (e) {
-          // Audio is optional enhancement
-        }
-      }
-
-      function loadCards() {
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) {
-            const parsed = JSON.parse(saved);
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
             if (Array.isArray(parsed) && parsed.length > 0) {
               cards = parsed;
               return;
             }
           }
-        } catch (err) {
-          console.warn('Gagal memuat kartu dari localStorage, menggunakan default.');
+        } catch (e) {
+          console.warn('Gagal membaca storage, menggunakan default.');
         }
         cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
       }
 
-      function saveCards(data) {
+      function saveData(data) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       }
 
       function renderCards() {
-        deckArena.innerHTML = '';
+        cardRow.innerHTML = '';
 
-        if (!cards || cards.length === 0) {
-          deckArena.innerHTML = `
-            <div class="empty-state">
-              <h3>Belum Ada Kartu</h3>
-              <p>Daftar kartu kosong. Buka editor JSON untuk menambahkan kartu baru atau pulihkan kartu bawaan.</p>
-              <button class="btn-primary" id="btnEmptyReset" type="button">Muat Kartu Default</button>
-            </div>
-          `;
-          const btnReset = document.getElementById('btnEmptyReset');
-          if (btnReset) {
-            btnReset.addEventListener('click', () => {
-              cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
-              saveCards(cards);
-              renderCards();
-            });
-          }
-          cardCounter.textContent = '0 Kartu';
-          return;
-        }
+        cards.forEach((item, index) => {
+          const cardWrap = document.createElement('div');
+          cardWrap.className = 'card-wrap';
+          cardWrap.tabIndex = 0;
+          cardWrap.style.setProperty('--card-color', item.color || '#e11d48');
+          cardWrap.setAttribute('role', 'button');
+          cardWrap.setAttribute('aria-label', `Kartu nomor ${index + 1}: ${item.title}`);
 
-        cardCounter.textContent = `${cards.length} Kartu Aktif`;
+          const num = String(index + 1).padStart(2, '0');
 
-        cards.forEach((card, index) => {
-          const cardEl = document.createElement('div');
-          const themeClass = `theme-${card.theme || 'indigo'}`;
-          cardEl.className = `card-item ${themeClass}`;
-          cardEl.id = `cardEl-${index}`;
-          cardEl.tabIndex = 0;
-          cardEl.setAttribute('role', 'button');
-          cardEl.setAttribute('aria-expanded', 'false');
-          cardEl.setAttribute('aria-label', `Kartu nomor ${index + 1}: ${card.title || 'Tanpa Judul'}`);
+          cardWrap.innerHTML = `
+            <div class="card-inner">
+              <!-- Depan: Polos solid warna Uno -->
+              <div class="card-face card-face-back"></div>
 
-          const numDisplay = String(index + 1).padStart(2, '0');
-          const emblem = card.emblem || '✨';
-          const tag = card.tag || 'Kartu';
-          const title = card.title || 'Tanpa Judul';
-          const content = card.content || 'Belum ada konten';
-
-          cardEl.innerHTML = `
-            <!-- Sisi Belakang (Tampak Awal) -->
-            <div class="card-face card-face-back">
-              <div class="back-header">
-                <span class="back-num">#${numDisplay}</span>
-                <span style="font-size: 16px; opacity: 0.85;">${emblem}</span>
-              </div>
-              <div class="back-center">
-                <div class="back-emblem">${emblem}</div>
-                <div class="back-title">KARTU RAHASIA</div>
-              </div>
-              <div class="back-footer">Klik untuk membuka isi</div>
-            </div>
-
-            <!-- Sisi Depan (Setelah Dibuka) -->
-            <div class="card-face card-face-front">
-              <div class="front-top">
-                <span class="card-tag">${escapeHtml(tag)}</span>
-                <span class="card-front-num">#${numDisplay}</span>
-              </div>
-              <div class="front-body">
-                <h3 class="card-title">${escapeHtml(title)}</h3>
-                <div class="card-content">${escapeHtml(content)}</div>
-              </div>
-              <div class="front-footer">
-                <span>ajra.tech</span>
-                <span>Klik untuk tutup</span>
+              <!-- Belakang: Isi teks -->
+              <div class="card-face card-face-front">
+                <div class="card-front-top">
+                  <div class="card-color-dot"></div>
+                  <span class="card-index">#${num}</span>
+                </div>
+                <div class="card-front-body">
+                  <h3 class="card-title">${escapeHtml(item.title || '')}</h3>
+                  <p class="card-content">${escapeHtml(item.content || '')}</p>
+                </div>
+                <div class="card-front-footer">
+                  <span>ajra.tech</span>
+                  <span>Flip</span>
+                </div>
               </div>
             </div>
           `;
 
           // Flip on click
-          cardEl.addEventListener('click', () => {
+          cardWrap.addEventListener('click', () => {
             if (isShuffling) return;
-            toggleCard(cardEl);
+            cardWrap.classList.toggle('is-flipped');
+            syncToggleButtonText();
           });
 
-          // Flip on Enter / Space key
-          cardEl.addEventListener('keydown', (e) => {
+          // Flip on keyboard Enter/Space
+          cardWrap.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               if (isShuffling) return;
-              toggleCard(cardEl);
+              cardWrap.classList.toggle('is-flipped');
+              syncToggleButtonText();
             }
           });
 
-          deckArena.appendChild(cardEl);
+          cardRow.appendChild(cardWrap);
         });
 
-        updateFlipAllButtonLabel();
+        syncToggleButtonText();
       }
 
-      function toggleCard(cardEl) {
-        const isFlipped = cardEl.classList.toggle('is-flipped');
-        cardEl.setAttribute('aria-expanded', isFlipped ? 'true' : 'false');
-        playAudioFeedback('flip');
-        updateFlipAllButtonLabel();
+      function syncToggleButtonText() {
+        const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+        if (wraps.length === 0) return;
+        const flipped = cardRow.querySelectorAll('.card-wrap.is-flipped').length;
+        btnFlipToggle.textContent = (flipped === wraps.length) ? 'Tutup Semua' : 'Buka Semua';
       }
 
-      function updateFlipAllButtonLabel() {
-        const allCardEls = deckArena.querySelectorAll('.card-item');
-        if (allCardEls.length === 0) return;
-        const flippedCount = deckArena.querySelectorAll('.card-item.is-flipped').length;
-        if (flippedCount === allCardEls.length) {
-          flipAllText.textContent = 'Tutup Semua';
-        } else {
-          flipAllText.textContent = 'Buka Semua';
-        }
-      }
-
-      // Flip all cards toggle
-      function handleFlipAll() {
+      function toggleAllCards() {
         if (isShuffling) return;
-        const allCardEls = deckArena.querySelectorAll('.card-item');
-        if (allCardEls.length === 0) return;
+        const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+        if (wraps.length === 0) return;
 
-        const flippedCount = deckArena.querySelectorAll('.card-item.is-flipped').length;
-        const shouldOpen = flippedCount < allCardEls.length;
+        const flipped = cardRow.querySelectorAll('.card-wrap.is-flipped').length;
+        const willOpen = (flipped < wraps.length);
 
-        allCardEls.forEach((cardEl, idx) => {
+        wraps.forEach((card, idx) => {
           setTimeout(() => {
-            if (shouldOpen) {
-              cardEl.classList.add('is-flipped');
-              cardEl.setAttribute('aria-expanded', 'true');
+            if (willOpen) {
+              card.classList.add('is-flipped');
             } else {
-              cardEl.classList.remove('is-flipped');
-              cardEl.setAttribute('aria-expanded', 'false');
+              card.classList.remove('is-flipped');
             }
-            playAudioFeedback('flip');
-            updateFlipAllButtonLabel();
-          }, idx * 60);
+            syncToggleButtonText();
+          }, idx * 70);
         });
       }
 
-      // High-performance dynamic card shuffle animation
-      function shuffleCards() {
+      function shuffle() {
         if (isShuffling) return;
-        const cardEls = Array.from(deckArena.querySelectorAll('.card-item'));
-        if (cardEls.length <= 1) return;
+        const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+        if (wraps.length <= 1) return;
 
         isShuffling = true;
         btnShuffle.disabled = true;
-        btnFlipAll.disabled = true;
-        statusDot.classList.add('shuffling');
-        statusMessage.textContent = 'Sedang mengocok kartu...';
+        btnFlipToggle.disabled = true;
 
-        // 1. Flip all back to face-down first
-        cardEls.forEach(el => {
-          el.classList.remove('is-flipped');
-          el.setAttribute('aria-expanded', 'false');
-          el.classList.add('is-shuffling');
+        // Tutup kartu terlebih dahulu
+        wraps.forEach(w => {
+          w.classList.remove('is-flipped');
+          w.classList.add('is-shuffling');
         });
-        updateFlipAllButtonLabel();
+        syncToggleButtonText();
 
-        // 2. Calculate deck center coordinates relative to each card
-        const arenaRect = deckArena.getBoundingClientRect();
-        const centerX = arenaRect.width / 2;
-        const centerY = arenaRect.height / 2;
+        // Kumpulkan ke tengah layar (stacking deck)
+        const rowRect = cardRow.getBoundingClientRect();
+        const midX = rowRect.width / 2;
+        const midY = rowRect.height / 2;
 
-        // Animate cards gathering to the deck center
-        cardEls.forEach((cardEl, i) => {
-          const rect = cardEl.getBoundingClientRect();
-          const cardCenterX = rect.left - arenaRect.left + rect.width / 2;
-          const cardCenterY = rect.top - arenaRect.top + rect.height / 2;
-          const deltaX = centerX - cardCenterX;
-          const deltaY = centerY - cardCenterY;
-          const rot = (Math.random() - 0.5) * 20;
+        wraps.forEach((wrap, i) => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = rect.left - rowRect.left + rect.width / 2;
+          const curY = rect.top - rowRect.top + rect.height / 2;
+          const dx = midX - curX;
+          const dy = midY - curY;
+          const rot = (Math.random() - 0.5) * 16;
 
-          cardEl.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0px) rotate(${rot}deg) scale(0.92)`;
-          cardEl.style.zIndex = `${10 + i}`;
+          wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${rot}deg) scale(0.96)`;
+          wrap.style.zIndex = `${10 + i}`;
         });
 
-        playAudioFeedback('shuffle');
-
-        // 3. Riffle flutter phase (shuffle sound + small rapid movements)
+        // Efek kocok kartu (riffle jitter)
         setTimeout(() => {
-          cardEls.forEach((cardEl, i) => {
-            const jitterX = (Math.random() - 0.5) * 60;
-            const jitterY = (Math.random() - 0.5) * 40;
-            const jitterRot = (Math.random() - 0.5) * 36;
-            const arenaRectNow = deckArena.getBoundingClientRect();
-            const rect = cardEl.getBoundingClientRect();
-            const origX = rect.left - arenaRectNow.left + rect.width / 2;
-            const origY = rect.top - arenaRectNow.top + rect.height / 2;
-            const deltaX = (arenaRectNow.width / 2) - origX + jitterX;
-            const deltaY = (arenaRectNow.height / 2) - origY + jitterY;
+          wraps.forEach((wrap) => {
+            const rowRectNow = cardRow.getBoundingClientRect();
+            const rect = wrap.getBoundingClientRect();
+            const curX = rect.left - rowRectNow.left + rect.width / 2;
+            const curY = rect.top - rowRectNow.top + rect.height / 2;
+            const jx = (Math.random() - 0.5) * 50;
+            const jy = (Math.random() - 0.5) * 30;
+            const dx = (rowRectNow.width / 2) - curX + jx;
+            const dy = (rowRectNow.height / 2) - curY + jy;
+            const rot = (Math.random() - 0.5) * 28;
 
-            cardEl.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0px) rotate(${jitterRot}deg) scale(0.96)`;
+            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${rot}deg) scale(1)`;
           });
-          playAudioFeedback('shuffle');
         }, 320);
 
-        // 4. Shuffle internal array (Fisher-Yates) and deal out
+        // Acak array dan sebar kembali
         setTimeout(() => {
-          // Fisher-Yates array shuffle
           for (let i = cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [cards[i], cards[j]] = [cards[j], cards[i]];
           }
 
-          // Re-render cards in new order
           renderCards();
 
-          // Deal out effect with stagger
-          const newCardEls = Array.from(deckArena.querySelectorAll('.card-item'));
-          newCardEls.forEach((cardEl, idx) => {
-            cardEl.style.opacity = '0';
-            cardEl.style.transform = 'translateY(24px) scale(0.9)';
+          // Deal out animasi halus
+          const newWraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+          newWraps.forEach((wrap, idx) => {
+            wrap.style.opacity = '0';
+            wrap.style.transform = 'scale(0.85) translateY(20px)';
             setTimeout(() => {
-              cardEl.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-              cardEl.style.opacity = '1';
-              cardEl.style.transform = 'none';
-              playAudioFeedback('shuffle');
-            }, idx * 70);
+              wrap.style.transition = 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+              wrap.style.opacity = '1';
+              wrap.style.transform = 'none';
+            }, idx * 60);
           });
 
-          // Finalize state
           setTimeout(() => {
             isShuffling = false;
             btnShuffle.disabled = false;
-            btnFlipAll.disabled = false;
-            statusDot.classList.remove('shuffling');
-            statusMessage.textContent = 'Kartu berhasil dikocok. Silakan pilih kartu!';
-          }, newCardEls.length * 70 + 200);
+            btnFlipToggle.disabled = false;
+          }, newWraps.length * 60 + 150);
 
-        }, 750);
+        }, 700);
       }
 
-      // JSON Drawer Handlers
-      function openDrawer() {
-        jsonEditor.value = JSON.stringify(cards, null, 2);
-        editorError.style.display = 'none';
-        editorError.textContent = '';
-        drawerOverlay.classList.add('is-open');
-        drawer.classList.add('is-open');
-        drawer.setAttribute('aria-hidden', 'false');
-        drawerOverlay.setAttribute('aria-hidden', 'false');
-        setTimeout(() => jsonEditor.focus(), 150);
+      function openModal() {
+        jsonInput.value = JSON.stringify(cards, null, 2);
+        errorBox.style.display = 'none';
+        modalBackdrop.classList.add('is-active');
+        setTimeout(() => jsonInput.focus(), 100);
       }
 
-      function closeDrawer() {
-        drawerOverlay.classList.remove('is-open');
-        drawer.classList.remove('is-open');
-        drawer.setAttribute('aria-hidden', 'true');
-        drawerOverlay.setAttribute('aria-hidden', 'true');
+      function closeModal() {
+        modalBackdrop.classList.remove('is-active');
       }
 
-      function applyJson() {
-        const raw = jsonEditor.value.trim();
+      function saveJson() {
         try {
-          const parsed = JSON.parse(raw);
-          if (!Array.isArray(parsed)) {
-            throw new Error('Data JSON harus berupa Array / daftar kartu (dimulai dengan [ dan diakhiri ]).');
-          }
-          if (parsed.length === 0) {
-            throw new Error('Array kartu tidak boleh kosong. Masukkan minimal 1 kartu.');
+          const val = jsonInput.value.trim();
+          const parsed = JSON.parse(val);
+          if (!Array.isArray(parsed) || parsed.length === 0) {
+            throw new Error('JSON harus berupa array dan berisi minimal 1 kartu.');
           }
 
-          // Sanitize items
           cards = parsed.map((item, idx) => ({
-            id: item.id || `custom-card-${idx + 1}`,
             title: item.title || `Kartu ${idx + 1}`,
             content: item.content || '',
-            tag: item.tag || 'Umum',
-            emblem: item.emblem || '✨',
-            theme: item.theme || ['emerald', 'amber', 'rose', 'indigo', 'teal', 'violet', 'coral', 'sky'][idx % 8]
+            color: item.color || ['#e11d48', '#2563eb', '#059669', '#d97706'][idx % 4]
           }));
 
-          saveCards(cards);
+          saveData(cards);
           renderCards();
-          closeDrawer();
-          statusMessage.textContent = `Berhasil menerapkan ${cards.length} kartu baru!`;
+          closeModal();
         } catch (err) {
-          editorError.style.display = 'block';
-          editorError.textContent = `Error JSON: ${err.message}`;
+          errorBox.style.display = 'block';
+          errorBox.textContent = 'Format JSON salah: ' + err.message;
         }
       }
 
-      function loadDefaultJson() {
-        jsonEditor.value = JSON.stringify(DEFAULT_CARDS, null, 2);
-        editorError.style.display = 'none';
+      function resetDefault() {
+        jsonInput.value = JSON.stringify(DEFAULT_CARDS, null, 2);
+        errorBox.style.display = 'none';
       }
 
       function escapeHtml(str) {
@@ -1197,31 +680,26 @@
           .replace(/'/g, '&#39;');
       }
 
-      // Event Listeners
-      btnShuffle.addEventListener('click', shuffleCards);
-      btnFlipAll.addEventListener('click', handleFlipAll);
-      btnOpenEditor.addEventListener('click', openDrawer);
-      btnCloseDrawer.addEventListener('click', closeDrawer);
-      btnCancelDrawer.addEventListener('click', closeDrawer);
-      btnApplyJson.addEventListener('click', applyJson);
-      btnLoadDefault.addEventListener('click', loadDefaultJson);
-      drawerOverlay.addEventListener('click', closeDrawer);
+      // Listeners
+      btnShuffle.addEventListener('click', shuffle);
+      btnFlipToggle.addEventListener('click', toggleAllCards);
+      btnOpenJson.addEventListener('click', openModal);
+      btnCloseModal.addEventListener('click', closeModal);
+      btnResetDefault.addEventListener('click', resetDefault);
+      btnSaveJson.addEventListener('click', saveJson);
 
-      // Keyboard shortcuts
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeModal();
+      });
+
       window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
-          closeDrawer();
-        } else if (e.key.toLowerCase() === 's' && !drawer.classList.contains('is-open') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-          e.preventDefault();
-          shuffleCards();
-        } else if (e.key.toLowerCase() === 'e' && !drawer.classList.contains('is-open') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-          e.preventDefault();
-          openDrawer();
+        if (e.key === 'Escape' && modalBackdrop.classList.contains('is-active')) {
+          closeModal();
         }
       });
 
-      // Initialize
-      loadCards();
+      // Init
+      loadData();
       renderCards();
     })();
   </script>
