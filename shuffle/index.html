@@ -333,70 +333,78 @@
       pointer-events: auto;
     }
 
-    /* Close-up Hero Card: Jarak dekat, besar, bertekstur, dan berbayang nyata */
+    /* Close-up Hero Card: Proporsi fisik kartu remi Uno murni (Rasio 1:1.5, tidak terlalu rounded) */
     .hero-card-container {
-      width: 100%;
-      max-width: 480px;
+      width: 350px;
+      height: 525px;
+      max-width: 95vw;
+      max-height: 90vh;
       background: #ffffff;
-      border-radius: 30px;
+      border-radius: 16px;
       box-shadow:
         0 35px 80px -10px rgba(0, 0, 0, 0.45),
         0 16px 30px -4px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.5);
+      border: 2px solid #f1f5f9;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       transform: translateY(120vh) scale(0.85);
       will-change: transform, opacity;
     }
 
     .hero-card-top-bar {
-      height: 16px;
+      height: 10px;
       background-color: var(--hero-color, #2563eb);
       width: 100%;
+      flex-shrink: 0;
     }
 
     .hero-card-content {
-      padding: 36px 36px 32px;
+      padding: 26px 24px 24px;
       display: flex;
       flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
     }
 
     .hero-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 22px;
+      margin-bottom: 16px;
     }
 
     .hero-badge-wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .hero-dot {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background-color: var(--hero-color, #2563eb);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     .hero-index {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #94a3b8;
     }
 
     .hero-close-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       background: #f1f5f9;
       border: none;
       color: #64748b;
-      font-size: 22px;
+      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -410,54 +418,56 @@
     }
 
     .hero-title {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 800;
       color: #0f172a;
       line-height: 1.3;
-      margin-bottom: 16px;
-      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
     }
 
     .hero-body {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
       color: #475569;
-      line-height: 1.7;
-      margin-bottom: 32px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-height: 170px;
+      overflow-y: auto;
     }
 
     /* Email Submission Section */
     .hero-email-box {
       border-top: 1px solid #f1f5f9;
-      padding-top: 26px;
+      padding-top: 18px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .hero-email-label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: #1e293b;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .hero-input-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: stretch;
     }
 
     .hero-input {
       flex: 1;
-      height: 48px;
+      height: 42px;
       border: 1.5px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 0 18px;
+      border-radius: 10px;
+      padding: 0 14px;
       font-family: inherit;
-      font-size: 15px;
+      font-size: 13px;
       color: #0f172a;
       outline: none;
       transition: all 0.2s ease;
@@ -467,22 +477,22 @@
     .hero-input:focus {
       border-color: #2563eb;
       background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
     .hero-send-btn {
-      height: 48px;
-      padding: 0 24px;
-      border-radius: 14px;
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 10px;
       background: #0f172a;
       color: #ffffff;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
@@ -490,7 +500,6 @@
     .hero-send-btn:hover:not(:disabled) {
       background: #1e293b;
       transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
     }
 
     .hero-send-btn:disabled {
@@ -499,10 +508,10 @@
     }
 
     .hero-msg {
-      font-size: 13px;
-      line-height: 1.45;
-      padding: 12px 16px;
-      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 10px 12px;
+      border-radius: 8px;
       display: none;
     }
 
@@ -645,10 +654,11 @@
         font-size: 14px;
       }
       .hero-card-container {
-        max-width: 95%;
+        width: min(350px, 92vw);
+        height: min(525px, 88vh);
       }
       .hero-card-content {
-        padding: 28px 22px;
+        padding: 22px 20px;
       }
       .hero-input-row {
         flex-direction: column;
