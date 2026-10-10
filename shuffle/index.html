@@ -32,20 +32,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Minimalist Floating Controls */
+    /* Header dihilangkan agar kanvas bersih murni */
     .controls {
-      position: fixed;
-      top: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 50;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      padding: 6px 14px;
-      border-radius: 9999px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-      border: 1px solid #f1f5f9;
+      display: none;
     }
 
     .btn {
@@ -150,10 +139,10 @@
       padding: 24px 10px;
     }
 
-    /* Ukuran Kartu Remi / Uno Besar: 310px x 465px */
+    /* Ukuran 5 Kartu Remi / Uno di Meja: 255px x 382px */
     .card-wrap {
-      width: 310px;
-      height: 465px;
+      width: 255px;
+      height: 382px;
       position: relative;
       cursor: pointer;
       flex-shrink: 0;
@@ -735,7 +724,7 @@
     (function () {
       'use strict';
 
-      // 4 kartu Uno default dengan warna solid yang cerah dan bertekstur (tanpa judul kartu merah)
+      // 5 kartu Uno default dengan warna solid yang cerah dan bertekstur
       const DEFAULT_CARDS = [
         {
           id: 'card-red',
@@ -760,10 +749,16 @@
           title: "",
           content: "Eksplorasi ide baru dengan rasa ingin tahu dan keberanian mencoba.",
           color: "#d97706"
+        },
+        {
+          id: 'card-purple',
+          title: "",
+          content: "Kreativitas berkembang saat kamu berani keluar dari pola lama.",
+          color: "#7c3aed"
         }
       ];
 
-      const STORAGE_KEY = 'ajra_cards_data_v7';
+      const STORAGE_KEY = 'ajra_cards_data_v8';
       let cards = [];
       let isShuffling = false;
       let activeCardWrap = null;
@@ -1467,15 +1462,18 @@
           } else if (modalBackdrop.classList.contains('is-active')) {
             closeModal();
           }
-        } else if (e.key.toLowerCase() === 's' && !modalBackdrop.classList.contains('is-active') && !heroModalBackdrop.classList.contains('is-active') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        } else if ((e.key.toLowerCase() === 's' || e.code === 'Space') && !modalBackdrop.classList.contains('is-active') && !heroModalBackdrop.classList.contains('is-active') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
           e.preventDefault();
           shuffle();
         }
       });
 
-      // Inisialisasi awal
+      // Inisialisasi awal & Auto Shuffle saat reload
       loadData();
       initCards();
+      setTimeout(() => {
+        shuffle();
+      }, 350);
     })();
   </script>
 </body>
