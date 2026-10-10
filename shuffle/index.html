@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Shuffle | ajra.tech</title>
-  <meta name="description" content="Kartu remi warna-warni interaktif dengan animasi mengocok nyata dan kustomisasi JSON.">
+  <meta name="description" content="Kartu remi Uno bertekstur interaktif dengan animasi mengocok fisik GSAP dan kustomisasi JSON.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <!-- GSAP for smooth 60fps card physics animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -25,23 +27,24 @@
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      padding: 40px 20px;
+      padding: 48px 24px;
       user-select: none;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Top minimalist floating controls */
+    /* Minimalist Floating Controls */
     .controls {
       position: fixed;
-      top: 24px;
+      top: 28px;
       display: flex;
       align-items: center;
       gap: 12px;
-      z-index: 50;
-      background: #ffffff;
-      padding: 6px 10px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 6px 12px;
       border-radius: 9999px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
       border: 1px solid #f1f5f9;
     }
 
@@ -53,13 +56,13 @@
       font-family: inherit;
       font-size: 13px;
       font-weight: 600;
-      padding: 8px 16px;
+      padding: 9px 18px;
       border-radius: 9999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
+      gap: 7px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       min-height: 38px;
     }
 
@@ -81,11 +84,14 @@
     .btn-primary:hover:not(:disabled) {
       background: #1e293b;
       color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
     }
 
     .btn:disabled {
       opacity: 0.45;
       cursor: not-allowed;
+      transform: none !important;
     }
 
     /* Status indicator */
@@ -93,13 +99,13 @@
       font-size: 12px;
       font-weight: 600;
       color: #64748b;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 9999px;
       background: #f8fafc;
       border: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .status-dot {
@@ -107,6 +113,7 @@
       height: 7px;
       border-radius: 50%;
       background: #10b981;
+      transition: background-color 0.3s ease;
     }
 
     .status-dot.active {
@@ -119,16 +126,16 @@
       to { opacity: 1; transform: scale(1.1); }
     }
 
-    /* Main Deck Stage */
+    /* Arena & Stage */
     .stage {
       width: 100%;
-      max-width: 1300px;
+      max-width: 1360px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-top: 40px;
       perspective: 2000px;
-      margin-top: 50px;
     }
 
     .card-row {
@@ -136,30 +143,23 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 32px;
+      gap: 36px;
       width: 100%;
       position: relative;
-      min-height: 420px;
+      min-height: 480px;
+      padding: 20px 10px;
     }
 
-    /* Standard Playing Card / Uno Card Proportions: 220px x 330px (~1:1.5 ratio) */
+    /* Ukuran Kartu Remi / Uno Besar & Proporsional: 270px x 405px (Rasio 1:1.5) */
     .card-wrap {
-      width: 220px;
-      height: 330px;
-      perspective: 1400px;
+      width: 270px;
+      height: 405px;
       position: relative;
       cursor: pointer;
       flex-shrink: 0;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .card-wrap:hover:not(.is-shuffling) {
-      transform: translateY(-10px);
-    }
-
-    .card-wrap.is-shuffling {
-      pointer-events: none;
-      /* Animasi digerakkan via custom keyframe/JS transition */
+      transform-style: preserve-3d;
+      perspective: 1600px;
+      will-change: transform;
     }
 
     .card-inner {
@@ -167,17 +167,18 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
-      border-radius: 20px;
-      box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
+      border-radius: 24px;
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.15), 0 6px 14px -4px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    .card-wrap:hover .card-inner {
+      box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.2), 0 8px 18px -4px rgba(0, 0, 0, 0.1);
     }
 
     .card-wrap:focus-visible .card-inner {
-      box-shadow: 0 0 0 3px #2563eb, 0 12px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-wrap.is-flipped .card-inner {
-      transform: rotateY(180deg);
+      box-shadow: 0 0 0 3px #2563eb, 0 20px 40px rgba(0, 0, 0, 0.18);
     }
 
     /* Card Faces */
@@ -186,41 +187,63 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      border-radius: 20px;
+      border-radius: 24px;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       overflow: hidden;
     }
 
-    /* SISI DEPAN / TERTUTUP (Polos warna-warni ala Uno dengan inner border putih halus) */
+    /* SISI DEPAN / TERTUTUP: Polos Bertekstur Kartu Uno */
     .card-face-back {
       background-color: var(--card-color, #e11d48);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      /* Embossed linen & card stock bevel */
+      box-shadow:
+        inset 0 1px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.25);
     }
 
-    /* Garis border dalam khas kartu Uno / kartu remi */
+    /* Real Paper / Linen Texture Overlay */
+    .card-face-back::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.18), transparent 70%),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 2px, transparent 2px, transparent 4px),
+        repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0.02) 2px, transparent 2px, transparent 4px);
+      pointer-events: none;
+      border-radius: 24px;
+    }
+
+    /* Inner Border Khas Kartu Uno */
     .card-face-back::before {
       content: '';
       position: absolute;
-      inset: 12px;
-      border: 3px solid rgba(255, 255, 255, 0.85);
-      border-radius: 12px;
+      inset: 15px;
+      border: 3.5px solid rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
       pointer-events: none;
+      z-index: 2;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.06);
     }
 
-    /* SISI BELAKANG / TERBUKA (Isi konten dari JSON) */
+    /* SISI BELAKANG / TERBUKA: Clean Editorial Minimalist */
     .card-face-front {
       background-color: #ffffff;
       transform: rotateY(180deg);
-      border: 2px solid #f1f5f9;
+      border: 1.5px solid #f1f5f9;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 24px 20px;
+      padding: 32px 28px;
       text-align: left;
+      box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .card-front-top {
@@ -229,16 +252,27 @@
       justify-content: space-between;
     }
 
+    .card-color-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+    }
+
     .card-color-dot {
-      width: 12px;
-      height: 12px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background-color: var(--card-color, #e11d48);
     }
 
     .card-index {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: #94a3b8;
     }
@@ -248,26 +282,35 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 12px 0;
+      padding: 20px 0;
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 21px;
       font-weight: 700;
       color: #0f172a;
       line-height: 1.35;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       word-break: break-word;
+      letter-spacing: -0.015em;
     }
 
     .card-content {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
-      line-height: 1.6;
+      line-height: 1.65;
       color: #475569;
       word-break: break-word;
-      max-height: 160px;
+      max-height: 200px;
       overflow-y: auto;
+    }
+
+    .card-content::-webkit-scrollbar {
+      width: 4px;
+    }
+    .card-content::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 4px;
     }
 
     .card-front-footer {
@@ -275,11 +318,12 @@
       font-weight: 600;
       color: #94a3b8;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       border-top: 1px solid #f1f5f9;
-      padding-top: 12px;
+      padding-top: 16px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     /* Simple JSON Modal */
@@ -287,32 +331,41 @@
       position: fixed;
       inset: 0;
       background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(4px);
-      z-index: 100;
+      backdrop-filter: blur(6px);
+      z-index: 200;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
 
     .modal-backdrop.is-active {
       display: flex;
+      opacity: 1;
     }
 
     .modal-window {
       background: #ffffff;
       width: 100%;
       max-width: 580px;
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
       border: 1px solid #e2e8f0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transform: scale(0.96);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.is-active .modal-window {
+      transform: scale(1);
     }
 
     .modal-header {
-      padding: 18px 24px;
+      padding: 20px 24px;
       border-bottom: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
@@ -320,16 +373,16 @@
     }
 
     .modal-title {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: #0f172a;
     }
 
     .modal-body {
-      padding: 20px 24px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .modal-desc {
@@ -340,35 +393,37 @@
 
     .json-textarea {
       width: 100%;
-      height: 240px;
+      height: 250px;
       border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 12px 14px;
+      border-radius: 12px;
+      padding: 14px 16px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       color: #0f172a;
       background: #f8fafc;
       resize: vertical;
       outline: none;
+      line-height: 1.5;
     }
 
     .json-textarea:focus {
       border-color: #2563eb;
       background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .error-box {
       display: none;
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 12px 14px;
+      border-radius: 10px;
       background: #fef2f2;
       border: 1px solid #fecaca;
       color: #b91c1c;
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .modal-footer {
-      padding: 14px 24px;
+      padding: 16px 24px;
       border-top: 1px solid #f1f5f9;
       background: #fafafa;
       display: flex;
@@ -376,21 +431,24 @@
       gap: 10px;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .controls {
-        top: 12px;
+        top: 14px;
         flex-wrap: wrap;
         justify-content: center;
       }
       .card-wrap {
-        width: 180px;
-        height: 270px;
+        width: 220px;
+        height: 330px;
+      }
+      .card-face-front {
+        padding: 24px 20px;
       }
       .card-title {
-        font-size: 16px;
+        font-size: 18px;
       }
       .card-content {
-        font-size: 13px;
+        font-size: 14px;
       }
     }
   </style>
@@ -400,7 +458,7 @@
   <!-- Floating Controls -->
   <div class="controls">
     <button class="btn btn-primary" id="btnShuffle" type="button">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
       <span>Kocok Kartu</span>
     </button>
     <button class="btn" id="btnFlipToggle" type="button">Buka Semua</button>
@@ -423,7 +481,7 @@
     <div class="modal-window">
       <div class="modal-header">
         <h2 class="modal-title">Edit Konten Kartu (JSON)</h2>
-        <button class="btn" id="btnCloseModal" type="button" style="padding: 4px 8px; font-size: 18px;">&times;</button>
+        <button class="btn" id="btnCloseModal" type="button" style="padding: 4px 10px; font-size: 20px;">&times;</button>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
@@ -443,35 +501,35 @@
     (function () {
       'use strict';
 
-      // 4 kartu Uno default dengan warna solid yang cerah dan tajam
+      // 4 kartu Uno default dengan warna solid bertekstur
       const DEFAULT_CARDS = [
         {
-          id: 'c1',
+          id: 'card-red',
           title: "Kartu Merah",
-          content: "Fokus pada hal paling berdampak. Singkirkan yang tidak perlu.",
+          content: "Fokus pada hal paling berdampak. Singkirkan hal yang tidak esensial.",
           color: "#e11d48"
         },
         {
-          id: 'c2',
+          id: 'card-blue',
           title: "Kartu Biru",
-          content: "Ketenangan dan kejernihan berpikir menghasilkan keputusan tepat.",
+          content: "Ketenangan dan kejernihan berpikir menghasilkan keputusan yang tepat.",
           color: "#2563eb"
         },
         {
-          id: 'c3',
+          id: 'card-green',
           title: "Kartu Hijau",
           content: "Pertumbuhan yang konsisten berawal dari langkah kecil setiap hari.",
           color: "#059669"
         },
         {
-          id: 'c4',
+          id: 'card-yellow',
           title: "Kartu Kuning",
-          content: "Eksplorasi ide baru dengan rasa ingin tahu tanpa batas.",
+          content: "Eksplorasi ide baru dengan rasa ingin tahu dan keberanian mencoba.",
           color: "#d97706"
         }
       ];
 
-      const STORAGE_KEY = 'ajra_cards_data_v2';
+      const STORAGE_KEY = 'ajra_cards_data_v3';
       let cards = [];
       let isShuffling = false;
 
@@ -488,7 +546,7 @@
       const statusDot = document.getElementById('statusDot');
       const statusLabel = document.getElementById('statusLabel');
 
-      // Web Audio API sintetis untuk efek gesekan kartu realistis
+      // Web Audio API sintetis untuk efek audio kartu fisik
       let audioCtx = null;
       function playCardSound(type) {
         try {
@@ -507,39 +565,37 @@
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(380, now);
-            osc.frequency.exponentialRampToValueAtTime(680, now + 0.07);
+            osc.frequency.setValueAtTime(360, now);
+            osc.frequency.exponentialRampToValueAtTime(700, now + 0.08);
             gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
             osc.start(now);
-            osc.stop(now + 0.08);
+            osc.stop(now + 0.09);
           } else if (type === 'cut') {
-            // Suara gesekan tumpukan kartu terpotong
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(220, now);
-            osc.frequency.exponentialRampToValueAtTime(320, now + 0.09);
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.exponentialRampToValueAtTime(340, now + 0.08);
             gain.gain.setValueAtTime(0.06, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
             osc.start(now);
-            osc.stop(now + 0.1);
+            osc.stop(now + 0.09);
           } else if (type === 'riffle') {
-            // Suara daun kartu berderak (riffle shuffle flutter)
-            for (let i = 0; i < 6; i++) {
-              const tickTime = now + (i * 0.035);
+            for (let i = 0; i < 5; i++) {
+              const tick = now + (i * 0.03);
               const osc = audioCtx.createOscillator();
               const gain = audioCtx.createGain();
               osc.connect(gain);
               gain.connect(audioCtx.destination);
               osc.type = 'sine';
-              osc.frequency.setValueAtTime(500 + (Math.random() * 250), tickTime);
-              gain.gain.setValueAtTime(0.04, tickTime);
-              gain.gain.exponentialRampToValueAtTime(0.001, tickTime + 0.025);
-              osc.start(tickTime);
-              osc.stop(tickTime + 0.025);
+              osc.frequency.setValueAtTime(450 + (i * 40), tick);
+              gain.gain.setValueAtTime(0.04, tick);
+              gain.gain.exponentialRampToValueAtTime(0.001, tick + 0.025);
+              osc.start(tick);
+              osc.stop(tick + 0.025);
             }
           }
         } catch (e) {
@@ -573,7 +629,7 @@
         cards.forEach((item, index) => {
           const cardWrap = document.createElement('div');
           cardWrap.className = 'card-wrap';
-          cardWrap.id = `card-${index}`;
+          cardWrap.id = `card-wrap-${index}`;
           cardWrap.tabIndex = 0;
           cardWrap.style.setProperty('--card-color', item.color || '#e11d48');
           cardWrap.setAttribute('role', 'button');
@@ -583,13 +639,16 @@
 
           cardWrap.innerHTML = `
             <div class="card-inner">
-              <!-- Depan: Polos solid warna Uno -->
+              <!-- SISI DEPAN / TERTUTUP (Polos bertekstur kartu Uno) -->
               <div class="card-face card-face-back"></div>
 
-              <!-- Belakang: Isi teks -->
+              <!-- SISI BELAKANG / TERBUKA (Isi clean editorial) -->
               <div class="card-face card-face-front">
                 <div class="card-front-top">
-                  <div class="card-color-dot"></div>
+                  <div class="card-color-pill">
+                    <span class="card-color-dot"></span>
+                    <span>Kartu</span>
+                  </div>
                   <span class="card-index">#${num}</span>
                 </div>
                 <div class="card-front-body">
@@ -604,23 +663,50 @@
             </div>
           `;
 
-          // Flip on click
+          const cardInner = cardWrap.querySelector('.card-inner');
+
+          // Smooth 3D Flip on Click
           cardWrap.addEventListener('click', () => {
             if (isShuffling) return;
-            cardWrap.classList.toggle('is-flipped');
-            playCardSound('flip');
-            syncToggleButtonText();
+            toggleFlipCard(cardWrap, cardInner);
           });
 
-          // Flip on keyboard Enter/Space
+          // Smooth 3D Flip on Keyboard Enter/Space
           cardWrap.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               if (isShuffling) return;
-              cardWrap.classList.toggle('is-flipped');
-              playCardSound('flip');
-              syncToggleButtonText();
+              toggleFlipCard(cardWrap, cardInner);
             }
+          });
+
+          // Subtle Organic 3D Hover Tilt
+          cardWrap.addEventListener('mousemove', (e) => {
+            if (isShuffling) return;
+            const rect = cardWrap.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotY = (x / (rect.width / 2)) * 8;
+            const rotX = -(y / (rect.height / 2)) * 8;
+
+            gsap.to(cardWrap, {
+              rotateX: rotX,
+              rotateY: rotY,
+              y: -8,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          });
+
+          cardWrap.addEventListener('mouseleave', () => {
+            if (isShuffling) return;
+            gsap.to(cardWrap, {
+              rotateX: 0,
+              rotateY: 0,
+              y: 0,
+              duration: 0.5,
+              ease: "power2.out"
+            });
           });
 
           cardRow.appendChild(cardWrap);
@@ -629,10 +715,26 @@
         syncToggleButtonText();
       }
 
+      function toggleFlipCard(cardWrap, cardInner) {
+        const isFlipped = cardWrap.dataset.flipped === 'true';
+        const targetRotY = isFlipped ? 0 : 180;
+
+        playCardSound('flip');
+        gsap.to(cardInner, {
+          rotateY: targetRotY,
+          duration: 0.65,
+          ease: "back.out(1.2)",
+          onComplete: () => {
+            cardWrap.dataset.flipped = (!isFlipped).toString();
+            syncToggleButtonText();
+          }
+        });
+      }
+
       function syncToggleButtonText() {
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length === 0) return;
-        const flipped = cardRow.querySelectorAll('.card-wrap.is-flipped').length;
+        const flipped = wraps.filter(w => w.dataset.flipped === 'true').length;
         btnFlipToggle.textContent = (flipped === wraps.length) ? 'Tutup Semua' : 'Buka Semua';
       }
 
@@ -641,46 +743,47 @@
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
         if (wraps.length === 0) return;
 
-        const flipped = cardRow.querySelectorAll('.card-wrap.is-flipped').length;
-        const willOpen = (flipped < wraps.length);
+        const flippedCount = wraps.filter(w => w.dataset.flipped === 'true').length;
+        const willOpen = (flippedCount < wraps.length);
+        const targetRotY = willOpen ? 180 : 0;
 
-        wraps.forEach((card, idx) => {
-          setTimeout(() => {
-            if (willOpen) {
-              card.classList.add('is-flipped');
-            } else {
-              card.classList.remove('is-flipped');
+        wraps.forEach((wrap, idx) => {
+          const cardInner = wrap.querySelector('.card-inner');
+          gsap.to(cardInner, {
+            rotateY: targetRotY,
+            duration: 0.6,
+            delay: idx * 0.08,
+            ease: "back.out(1.15)",
+            onStart: () => playCardSound('flip'),
+            onComplete: () => {
+              wrap.dataset.flipped = willOpen.toString();
+              syncToggleButtonText();
             }
-            playCardSound('flip');
-            syncToggleButtonText();
-          }, idx * 70);
+          });
         });
       }
 
-      // Algoritma Pengacakan Benar-benar Acak (True Random Derangement / Fisher-Yates Berbobot)
+      // Algoritma Pengacakan Benar-benar Acak (True Random Derangement)
       function trulyRandomShuffle(arr) {
         if (arr.length <= 1) return arr;
-        const originalColors = arr.map(c => c.color + (c.id || c.title));
+        const originalKeys = arr.map(c => c.color + (c.id || c.title));
         let result = [...arr];
 
-        // Lakukan pengacakan sampai posisi berubah nyata
-        let attempts = 0;
         let changed = false;
+        let attempts = 0;
 
-        while (attempts < 10 && !changed) {
+        while (attempts < 15 && !changed) {
           attempts++;
           for (let i = result.length - 1; i > 0; i--) {
-            // Crypto random untuk true entropy
             const randArray = new Uint32Array(1);
             window.crypto.getRandomValues(randArray);
             const j = randArray[0] % (i + 1);
             [result[i], result[j]] = [result[j], result[i]];
           }
 
-          // Cek apakah minimal 2 elemen berpindah posisi
           let matchCount = 0;
           for (let k = 0; k < result.length; k++) {
-            if (result[k].color + (result[k].id || result[k].title) === originalColors[k]) {
+            if (result[k].color + (result[k].id || result[k].title) === originalKeys[k]) {
               matchCount++;
             }
           }
@@ -692,7 +795,7 @@
         return result;
       }
 
-      // Animasi Mengocok Kartu Nyata (Full Multi-Stage Physical Shuffling)
+      // Buttery Smooth, Seamless 60FPS Physical Card Shuffle via GSAP Timeline
       function shuffle() {
         if (isShuffling) return;
         const wraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
@@ -704,103 +807,12 @@
         statusDot.classList.add('active');
         statusLabel.textContent = 'Mengocok...';
 
-        // 1. Tutup semua kartu yang sedang terbuka
-        wraps.forEach(w => {
-          w.classList.remove('is-flipped');
-          w.classList.add('is-shuffling');
-        });
-        syncToggleButtonText();
-
         const rowRect = cardRow.getBoundingClientRect();
         const midX = rowRect.width / 2;
         const midY = rowRect.height / 2;
 
-        // FASE 1: Semua kartu bergerak menyatu ke tengah menjadi tumpukan rapi (0ms - 400ms)
-        wraps.forEach((wrap, i) => {
-          const rect = wrap.getBoundingClientRect();
-          const curX = rect.left - rowRect.left + rect.width / 2;
-          const curY = rect.top - rowRect.top + rect.height / 2;
-          const dx = midX - curX;
-          const dy = midY - curY - (i * 2); // sedikit offset vertikal agar terasa tebal bertumpuk
-
-          wrap.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1)';
-          wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(0deg) scale(0.96)`;
-          wrap.style.zIndex = `${10 + i}`;
-        });
-        playCardSound('cut');
-
-        // FASE 2: Potong tumpukan menjadi dua (kiri dan kanan) (450ms)
-        setTimeout(() => {
-          const half = Math.ceil(wraps.length / 2);
-          wraps.forEach((wrap, i) => {
-            const rect = wrap.getBoundingClientRect();
-            const curX = rect.left - rowRect.left + rect.width / 2;
-            const curY = rect.top - rowRect.top + rect.height / 2;
-            const isLeft = i < half;
-            const sideOffset = isLeft ? -130 : 130;
-            const sideAngle = isLeft ? -9 : 9;
-            const dx = (midX - curX) + sideOffset;
-            const dy = (midY - curY);
-
-            wrap.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.25, 0.64, 1)';
-            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${sideAngle}deg) scale(0.96)`;
-          });
-          playCardSound('cut');
-        }, 450);
-
-        // FASE 3: Riffle Interleave (Kocok kartu silang berderak) (850ms)
-        setTimeout(() => {
-          playCardSound('riffle');
-          wraps.forEach((wrap, i) => {
-            const rect = wrap.getBoundingClientRect();
-            const curX = rect.left - rowRect.left + rect.width / 2;
-            const curY = rect.top - rowRect.top + rect.height / 2;
-            // Geser silang bolak-balik
-            const interleaveX = (i % 2 === 0 ? 30 : -30);
-            const interleaveRot = (i % 2 === 0 ? 5 : -5);
-            const dx = (midX - curX) + interleaveX;
-            const dy = (midY - curY);
-
-            wrap.style.transition = 'transform 0.28s ease-in-out';
-            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(${interleaveRot}deg) scale(1)`;
-          });
-        }, 850);
-
-        // FASE 4: Kocokan kedua & rapikan ke tengah (Square Up) (1200ms)
-        setTimeout(() => {
-          playCardSound('cut');
-          wraps.forEach((wrap, i) => {
-            const rect = wrap.getBoundingClientRect();
-            const curX = rect.left - rowRect.left + rect.width / 2;
-            const curY = rect.top - rowRect.top + rect.height / 2;
-            const dx = midX - curX;
-            const dy = midY - curY;
-
-            wrap.style.transition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)';
-            wrap.style.transform = `translate3d(${dx}px, ${dy}px, 0px) rotate(0deg) scale(0.98)`;
-          });
-        }, 1200);
-
-        // FASE 5: Terapkan urutan acak sejati & Deal Out ke posisi masing-masing (1550ms)
-        setTimeout(() => {
-          cards = trulyRandomShuffle(cards);
-          renderCards();
-
-          // Deal out animasi bertahap (stagger) meluncur ke meja
-          const newWraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
-          newWraps.forEach((wrap, idx) => {
-            wrap.style.opacity = '0';
-            wrap.style.transform = 'scale(0.85) translateY(-30px)';
-            setTimeout(() => {
-              wrap.style.transition = 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-              wrap.style.opacity = '1';
-              wrap.style.transform = 'none';
-              playCardSound('cut');
-            }, idx * 75);
-          });
-
-          // Selesai pengocokan
-          setTimeout(() => {
+        const tl = gsap.timeline({
+          onComplete: () => {
             isShuffling = false;
             btnShuffle.disabled = false;
             btnFlipToggle.disabled = false;
@@ -808,10 +820,126 @@
             statusLabel.textContent = 'Terkocok!';
             setTimeout(() => {
               if (!isShuffling) statusLabel.textContent = 'Siap';
-            }, 1500);
-          }, (newWraps.length * 75) + 200);
+            }, 1400);
+          }
+        });
 
-        }, 1550);
+        // 1. Smoothly Flip Back Any Opened Card to Face-Down (0.35s)
+        wraps.forEach((wrap) => {
+          const cardInner = wrap.querySelector('.card-inner');
+          if (wrap.dataset.flipped === 'true') {
+            tl.to(cardInner, {
+              rotateY: 0,
+              duration: 0.35,
+              ease: "power2.inOut"
+            }, 0);
+            wrap.dataset.flipped = 'false';
+          }
+        });
+        syncToggleButtonText();
+
+        // 2. Gather All Cards into Center Stack with Thickness Offset (0.45s)
+        wraps.forEach((wrap, i) => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = rect.left - rowRect.left + rect.width / 2;
+          const curY = rect.top - rowRect.top + rect.height / 2;
+          const dx = midX - curX;
+          const dy = midY - curY - (i * 2.5);
+
+          tl.to(wrap, {
+            x: dx,
+            y: dy,
+            rotateX: 0,
+            rotateY: 0,
+            rotationZ: 0,
+            scale: 0.98,
+            duration: 0.45,
+            ease: "power3.inOut"
+          }, 0.25);
+        });
+        tl.call(() => playCardSound('cut'), null, 0.35);
+
+        // 3. Cut The Deck: Split into Left & Right Packets (0.35s)
+        const half = Math.ceil(wraps.length / 2);
+        wraps.forEach((wrap, i) => {
+          const isLeft = i < half;
+          const sideX = isLeft ? -150 : 150;
+          const rotZ = isLeft ? -9 : 9;
+
+          tl.to(wrap, {
+            x: `+=${sideX}`,
+            rotationZ: rotZ,
+            duration: 0.35,
+            ease: "power2.out"
+          }, 0.75);
+        });
+        tl.call(() => playCardSound('cut'), null, 0.75);
+
+        // 4. Cascading Riffle Interleave (Kocok Silang Bertahap) (0.5s)
+        tl.call(() => playCardSound('riffle'), null, 1.15);
+        wraps.forEach((wrap, i) => {
+          const isLeft = i < half;
+          const interleaveOffset = isLeft ? 35 : -35;
+          const tilt = isLeft ? 4 : -4;
+
+          tl.to(wrap, {
+            x: `-=${isLeft ? -150 : 150}`,
+            x: `+=${interleaveOffset}`,
+            y: `-=${12}`,
+            rotationZ: tilt,
+            duration: 0.3,
+            ease: "sine.inOut"
+          }, 1.15 + (i * 0.05));
+        });
+
+        // 5. Square Up Deck in Center with Elastic Tap (0.35s)
+        wraps.forEach((wrap, i) => {
+          const rect = wrap.getBoundingClientRect();
+          const curX = rect.left - rowRect.left + rect.width / 2;
+          const curY = rect.top - rowRect.top + rect.height / 2;
+          const dx = midX - curX;
+          const dy = midY - curY;
+
+          tl.to(wrap, {
+            x: dx,
+            y: dy,
+            rotationZ: 0,
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.inOut"
+          }, 1.55);
+        });
+        tl.call(() => playCardSound('cut'), null, 1.6);
+
+        // 6. Apply Truly Random Data & Deal Out to Original Slots Seamlessly (0.55s)
+        tl.call(() => {
+          cards = trulyRandomShuffle(cards);
+          renderCards();
+
+          // Animate freshly rendered cards dealing out from center to table
+          const newWraps = Array.from(cardRow.querySelectorAll('.card-wrap'));
+          newWraps.forEach((newWrap, idx) => {
+            gsap.fromTo(newWrap,
+              {
+                opacity: 0,
+                y: -30,
+                scale: 0.9,
+                rotationZ: (Math.random() - 0.5) * 6
+              },
+              {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                scale: 1,
+                rotationZ: 0,
+                duration: 0.45,
+                delay: idx * 0.08,
+                ease: "back.out(1.2)",
+                onStart: () => playCardSound('cut')
+              }
+            );
+          });
+        }, null, 1.9);
       }
 
       function openModal() {
@@ -834,7 +962,7 @@
           }
 
           cards = parsed.map((item, idx) => ({
-            id: item.id || `custom-${idx + 1}`,
+            id: item.id || `card-${idx + 1}`,
             title: item.title || `Kartu ${idx + 1}`,
             content: item.content || '',
             color: item.color || ['#e11d48', '#2563eb', '#059669', '#d97706'][idx % 4]
@@ -864,7 +992,7 @@
           .replace(/'/g, '&#39;');
       }
 
-      // Listeners
+      // Event Listeners
       btnShuffle.addEventListener('click', shuffle);
       btnFlipToggle.addEventListener('click', toggleAllCards);
       btnOpenJson.addEventListener('click', openModal);
@@ -885,7 +1013,7 @@
         }
       });
 
-      // Init
+      // Initialize
       loadData();
       renderCards();
     })();
